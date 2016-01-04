@@ -21,9 +21,7 @@ public class LancePersonnage {
 
 	public static void main(String[] args) {
 		String nom = "Truc";
-		
-		// TODO remplacer la ligne suivante par votre numero de groupe(FAIT)
-		String groupe = "G" + 15; 
+		String groupe = "G15"; 
 		
 		// nombre de tours pour ce personnage avant d'etre deconnecte 
 		// (30 minutes par defaut)

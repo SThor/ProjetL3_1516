@@ -64,7 +64,6 @@ public class Constantes {
 	/**
 	* Distance minimale entre deux elements pour qu'une attaque distante soit possible
 	*/
-
 	public static final int DISTANCE_MIN_ATT_DISTANTE = 15;
 
 	/**

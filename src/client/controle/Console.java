@@ -190,4 +190,5 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	public void log(Level level, String prefixe, String msg) throws RemoteException {
 		logger.log(level, prefixe, msg);
 	}
+
 }

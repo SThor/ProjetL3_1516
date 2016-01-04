@@ -126,4 +126,6 @@ public class Constantes {
 	public static String nomCompletClient(VueElement<?> client) {
 		return "("+ nomClasse(client) + client.getRefRMI() + " * " + client.getElement().getNomGroupe() + ")";
 	}
+	
+	public static final int SOIN_DEFAUT = 5;
 }

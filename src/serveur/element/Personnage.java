@@ -4,8 +4,10 @@
 package serveur.element;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
  * Un personnage: un element possedant des caracteristiques et etant capable
@@ -15,6 +17,7 @@ import utilitaires.Calculs;
 public class Personnage extends Element {
 	
 	private static final long serialVersionUID = 1L;
+	private HashMap<Passif, Integer> passifs;
 
 	/**
 	 * Cree un personnage avec un nom et un groupe.
@@ -24,6 +27,9 @@ public class Personnage extends Element {
 	 */
 	public Personnage(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);
+		for(Passif passif : Passif.values()){
+			passifs.put(passif, 0);
+		}
 	}
 	
 	/**
@@ -56,5 +62,23 @@ public class Personnage extends Element {
 	public boolean estVivant() {
 		Integer vie = caracts.get(Caracteristique.VIE);
 		return vie != null && vie > 0;
+	}
+	
+	public HashMap<Passif, Integer> getPassifs(){
+		return passifs;
+	}
+	
+	/**
+	 * Applique les passifs, et
+	 * Decremente les timers de chaque passif
+	 */
+	public void gestionPassifs(){
+		if(passifs.get(Passif.Soin)>0){
+			incrementeCaract(Caracteristique.VIE, Constantes.SOIN_DEFAUT);
+		}
+		
+		for(Entry<Passif, Integer> passif :passifs.entrySet()){
+			passifs.put(passif.getKey(), passif.getValue()-1);
+		}
 	}
 }

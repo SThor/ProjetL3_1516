@@ -19,6 +19,7 @@ import client.controle.IConsole;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
+import serveur.element.Passif;
 import serveur.element.Personnage;
 import serveur.element.Potion;
 import serveur.interaction.Deplacement;
@@ -71,7 +72,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	
 	/**
 	 * Liste des personnages morts. Permet de garder une trace des personnages
-	 * qui ont joué et qui sont maintenant deconnectes. 
+	 * qui ont joue et qui sont maintenant deconnectes. 
 	 */
 	protected List<VuePersonnage> personnagesMorts = null;
 
@@ -158,32 +159,42 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 					try {						
 						// si pas deconnecte
 						if(!verifieDeconnexion(refRMI)) {
+							// gestionPassifs
+							personnages.get(refRMI).getElement().gestionPassifs();
 							
-							// lancement de la strategie (dans un thread separe)
-							ts = new ThreadStrategie(consoleFromRef(refRMI));
+							// si le personnage est confus
+							if(personnages.get(refRMI).getElement().getPassifs().get(Passif.Confusion)>0){
+								consoleFromRef(refRMI).setPhrase("Je suis confus, j'erre...");
+								deplace(refRMI, 0); 
+								personnages.get(refRMI).termineTour();
+							}else{
 							
-							// attente de la fin de la strategie (temps d'attente max 1 seconde)
-							ts.join(1000);
-							
-							// finit le tour pour ce client
-							personnages.get(refRMI).termineTour();
-							
-							if(ts.isAlive()) {
-								// si le thread est toujours vivant apres une 
-								// seconde (la strategie n'est pas terminee),
-								// on l'ejecte
-								logger.info(Constantes.nomClasse(this), 
-										"Execution de la strategie de " + 
-										nomRaccourciClient(refRMI) + 
-										" trop longue ! Client ejecte");
+								// lancement de la strategie (dans un thread separe)
+								ts = new ThreadStrategie(consoleFromRef(refRMI));
 								
-								deconnecte(refRMI, 
-										"Execution de strategie trop longue. Degage !", 
-										"trop lent");
+								// attente de la fin de la strategie (temps d'attente max 1 seconde)
+								ts.join(1000);
+							
+								// finit le tour pour ce client
+								personnages.get(refRMI).termineTour();
 								
-							} else {
-								// on reteste apres l'execution de la strategie
-								verifieDeconnexion(refRMI);
+								if(ts.isAlive()) {
+									// si le thread est toujours vivant apres une 
+									// seconde (la strategie n'est pas terminee),
+									// on l'ejecte
+									logger.info(Constantes.nomClasse(this), 
+											"Execution de la strategie de " + 
+											nomRaccourciClient(refRMI) + 
+											" trop longue ! Client ejecte");
+									
+									deconnecte(refRMI, 
+											"Execution de strategie trop longue. Degage !", 
+											"trop lent");
+									
+								} else {
+									// on reteste apres l'execution de la strategie
+									verifieDeconnexion(refRMI);
+								}
 							}
 						}
 					

@@ -60,6 +60,12 @@ public class Constantes {
 	 * possible. 
 	 */
 	public static final int DISTANCE_MIN_INTERACTION = 2;
+	
+	/**
+	* Distance minimale entre deux elements pour qu'une attaque distante soit possible
+	*/
+
+	public static final int DISTANCE_MIN_ATT_DISTANTE = 15;
 
 	/**
 	 * Abscisse minimale de l'arene.

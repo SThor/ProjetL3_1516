@@ -7,7 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import client.StrategiePersonnage;
+import client.strategie.StrategiePersonnage;
 import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.element.Personnage;

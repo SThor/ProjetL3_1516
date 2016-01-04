@@ -1,4 +1,5 @@
-package client;
+package client.strategie;
+
 
 public class StratArcher extends StrategiePersonnage {
 

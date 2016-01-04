@@ -26,4 +26,8 @@ public class Potion extends Element {
 	public boolean isEmpoisonnee(){
 		return empoisonnee;
 	}
+	
+	public void setEmpoisonnee(){
+		empoisonnee = true;
+	}
 }

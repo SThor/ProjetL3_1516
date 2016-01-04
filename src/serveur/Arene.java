@@ -582,7 +582,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		for(int refVoisin : personnages.keySet()) {
 			tempPers = personnages.get(refVoisin);
 			
-			if(estVoisin(courant, tempPers)) {
+			if(estVoisin(courant, tempPers) && tempPers.getElement().getPassifs().get(Passif.Invisibilite)==0) {
 				res.put(refVoisin, tempPers.getPosition());
 			}
 		}

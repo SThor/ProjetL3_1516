@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class Potion extends Element {
 
 	private static final long serialVersionUID = 1L;
+	private boolean empoisonnee;
 	
 	/**
 	 * Constructeur d'une potion avec un nom, le groupe qui l'a envoyee et ses 
@@ -19,5 +20,10 @@ public class Potion extends Element {
 	 */
 	public Potion(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);
+		empoisonnee = false;
+	}
+	
+	public boolean isEmpoisonnee(){
+		return empoisonnee;
 	}
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Une potion: un element donnant des bonus aux caracteristiques de celui qui
  * le ramasse.
  */
-public class Potion extends Element {
+public abstract class Potion extends Element {
 
 	private static final long serialVersionUID = 1L;
 	private boolean empoisonnee;

@@ -132,6 +132,13 @@ public class Constantes {
 		return "("+ nomClasse(client) + client.getRefRMI() + " * " + client.getElement().getNomGroupe() + ")";
 	}
 	
+	/**
+	 * Taux d'apparition des différentes potions
+	 */
+	public static final double TX_POTION_INVI = 0.10;
+	public static final double TX_POTION_CONFU = 0.10;
+	public static final double TX_POTION_SOIN = 0.10;
+	
 	public static final int SOIN_DEFAUT = 5;
 
 	public static final Integer CD_TELEPORTATION = 5;

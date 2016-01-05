@@ -3,10 +3,12 @@ package serveur.interaction;
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.Random;
 
 import serveur.element.Passif;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 public class Teleportation {
 	/**
@@ -61,7 +63,7 @@ public class Teleportation {
 	
 			// on ne bouge que si l'element existe
 			if(pvers != null) {
-				seDirigeVers(pvers);
+				seTeleporteA(pvers);
 			}
 		}
 	}
@@ -71,12 +73,19 @@ public class Teleportation {
 	 * @param objectif case cible
 	 * @throws RemoteException
 	 */
-	public void seDirigeVers(Point objectif) throws RemoteException {
-		Point cible = Calculs.restreintPositionArene(objectif); 
+	public void seTeleporteA(Point objectif) throws RemoteException {
+		//variation autour du point vise
+		Random rand = new Random();
+		int xvarie = (int) (objectif.getX())+rand.nextInt(2)-1;
+		int yvarie = (int) (objectif.getY())+rand.nextInt(2)-1;
+		Point objectifVarie = new Point(xvarie,yvarie);
+		
+		Point cible = Calculs.restreintPositionArene(objectifVarie);
 		
 		//on ne peut se teleporter que si le cooldown est a 0
 		if(cible != null && personnage.getElement().getPassifs().get(Passif.TeleportationCoolDown)==0) {
 			personnage.setPosition(cible);
+			personnage.getElement().getPassifs().put(Passif.TeleportationCoolDown, Constantes.CD_TELEPORTATION);
 		}
 	}
 }

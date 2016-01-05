@@ -133,4 +133,6 @@ public class Constantes {
 	}
 	
 	public static final int SOIN_DEFAUT = 5;
+
+	public static final Integer CD_TELEPORTATION = 5;
 }

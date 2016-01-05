@@ -26,6 +26,7 @@ import serveur.interaction.AttaqueDistante;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
 import serveur.interaction.Ramassage;
+import serveur.interaction.Teleportation;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -888,6 +889,29 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		} else {
 			// sinon, on tente de jouer l'interaction
 			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+			client.executeAction();
+			
+			res = true;
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public boolean teleporte(int refRMI, int refCible) throws RemoteException {		
+		boolean res = false;
+		
+		VuePersonnage client = personnages.get(refRMI);
+		
+		if (client.isActionExecutee()) {
+			// si une action a deja ete executee
+			logActionDejaExecutee(refRMI);
+			
+		} else if(client.getElement().getPassifs().get(Passif.TeleportationCoolDown)>0){
+			//TODO log impossibilite de se TP
+		} else {
+			// sinon, on tente de jouer l'interaction
+			new Teleportation(client, getVoisins(refRMI)).seTeleporteA(refCible);
 			client.executeAction();
 			
 			res = true;

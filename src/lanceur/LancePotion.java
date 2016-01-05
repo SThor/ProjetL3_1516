@@ -1,12 +1,9 @@
 package lanceur;
 
 import java.io.IOException;
-import java.util.HashMap;
-
 import logger.LoggerProjet;
 import serveur.IArene;
-import serveur.element.Caracteristique;
-import serveur.element.Potion;
+import serveur.element.*;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -54,20 +51,29 @@ public class LancePotion {
 		// lancement de la potion
 		try {
 			IArene arene = (IArene) java.rmi.Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
-
 			logger.info("Lanceur", "Lancement de la potion sur le serveur...");
 			
-			// caracteristiques de la potion
-			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
-			
-			caractsPotion.put(Caracteristique.VIE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.VIE));
-			caractsPotion.put(Caracteristique.FORCE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.FORCE));
-			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.INITIATIVE));
-			
-			// ajout de la potion
-			arene.ajoutePotion(new Potion(nom, groupe, caractsPotion), Calculs.positionAleatoireArene());
-			logger.info("Lanceur", "Lancement de la potion reussi");
-			
+			// le choix de la potion à lancer ce fait aléatoirement
+			double rd = Math.random();
+			double i = Constantes.TX_POTION_INVI;
+			if (rd < i){
+				arene.ajoutePotion(new PotionInvisibilite(groupe), Calculs.positionAleatoireArene());
+				logger.info("Lanceur", "Lancement de la potion mystère reussi");
+			}else{
+				if (i<=rd && rd<i+Constantes.TX_POTION_CONFU){
+					arene.ajoutePotion(new PotionConfusion(groupe), Calculs.positionAleatoireArene());
+					logger.info("Lanceur", "Lancement de la potion mystère reussi");
+				}else{
+					i+=Constantes.TX_POTION_CONFU;
+					if (i<=rd && rd<i+Constantes.TX_POTION_SOIN){
+						arene.ajoutePotion(new PotionSoin(groupe), Calculs.positionAleatoireArene());
+						logger.info("Lanceur", "Lancement de la potion mystère reussi");
+					}else{
+						arene.ajoutePotion(new PotionCarac(groupe), Calculs.positionAleatoireArene());
+						logger.info("Lanceur", "Lancement de la potion de boost reussi");
+					}
+				}
+			}			
 		} catch (Exception e) {
 			logger.severe("Lanceur", "Erreur lancement :\n" + e.getCause());
 			e.printStackTrace();

@@ -27,7 +27,7 @@ public class Personnage extends Element {
 	 */
 	public Personnage(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);
-		passifs = new HashMap<>();
+		passifs = new HashMap <Passif, Integer>();
 		for(Passif passif : Passif.values()){
 			passifs.put(passif, 0);
 		}

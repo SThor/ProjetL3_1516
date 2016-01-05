@@ -19,7 +19,7 @@ import utilitaires.Constantes;
 /**
  * Ce personnage attaque a distance des qu'il peut
  * S'il est suffisament pres, il attaque au corps a corps (duel)
- * Il ne ramasse ni va vers les potions qu'il trouve inutile (le tue et/ou moyenne des caracteristique < 30)
+ * Il ne ramasse ni va vers les potions qu'il trouve inutile (voir potionUtile)
  */
 public class StratArcher extends StrategiePersonnage{
 	
@@ -55,6 +55,8 @@ public class StratArcher extends StrategiePersonnage{
 	public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
 		
 		int vie = console.getPersonnage().getCaract(Caracteristique.VIE);
+		int force = console.getPersonnage().getCaract(Caracteristique.FORCE);
+		int initiative = console.getPersonnage().getCaract(Caracteristique.INITIATIVE);
 		
 		// arene
 		IArene arene = console.getArene();
@@ -76,7 +78,7 @@ public class StratArcher extends StrategiePersonnage{
 		}
 
 		if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
-			console.setPhrase("J'erre..." + vie);
+			console.setPhrase("J'erre...");
 			arene.deplace(refRMI, 0);
 
 		} else {
@@ -84,11 +86,15 @@ public class StratArcher extends StrategiePersonnage{
 			int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 			Element elemPlusProche = arene.elementFromRef(refCible);
 			
-			//verifie qu'une potion est utile, en demandant une moyenne des stats a 30 et sans nous tuer...
-			potionUtile = (elemPlusProche instanceof Potion) && ((elemPlusProche.getCaract(Caracteristique.VIE) + vie < 0 ) &&
-						(elemPlusProche.getCaract(Caracteristique.FORCE) 
-					  + elemPlusProche.getCaract(Caracteristique.INITIATIVE)
-					  + elemPlusProche.getCaract(Caracteristique.VIE)) / 3 <= 30);
+			//verifie qu'une potion est utile, en demandant une moyenne des stats a 0 et sans nous tuer
+			//et sans nous faire baisser a moins de 10 une de nos caracteristiques
+			potionUtile = (elemPlusProche instanceof Potion) &&
+						  ((elemPlusProche.getCaract(Caracteristique.VIE) + vie > 10 && 
+					      ((elemPlusProche.getCaract(Caracteristique.FORCE) + force) > 10) &&
+					      ((elemPlusProche.getCaract(Caracteristique.INITIATIVE) + initiative) > 10))) &&
+						  ((elemPlusProche.getCaract(Caracteristique.VIE) 
+						  + elemPlusProche.getCaract(Caracteristique.FORCE)
+						  + elemPlusProche.getCaract(Caracteristique.INITIATIVE)) / 3 > 0);
 			
 			//si vu par att distante et non au corps a corps
 			if(distPlusProche <= Constantes.DISTANCE_MIN_ATT_DISTANTE && distPlusProche > Constantes.DISTANCE_MIN_INTERACTION ) { 
@@ -101,12 +107,9 @@ public class StratArcher extends StrategiePersonnage{
 				// j'interagis directement
 				if(potionUtile) { // c'est une potion utile
 					// ramassage
-					if (elemPlusProche.getCaract(Caracteristique.VIE) <= 0 &&
-						elemPlusProche.getCaract(Caracteristique.FORCE) <= 0 &&
-						elemPlusProche.getCaract(Caracteristique.INITIATIVE) <= 0){
-							console.setPhrase("Je ramasse une potion");
-							arene.ramassePotion(refRMI, refCible);
-					}
+					console.setPhrase("Je ramasse une potion");
+					arene.ramassePotion(refRMI, refCible);
+			
 				} else if(elemPlusProche instanceof Personnage){
 					//duel
 					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
@@ -119,7 +122,7 @@ public class StratArcher extends StrategiePersonnage{
 				arene.deplace(refRMI, refCible);
 			} else {
 				//Sinon j'erre (potion inutile)
-				console.setPhrase("J'erre..." + vie);
+				console.setPhrase("J'erre...");
 				arene.deplace(refRMI, 0);
 			}
 		}

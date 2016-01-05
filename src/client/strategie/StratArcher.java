@@ -111,12 +111,12 @@ public class StratArcher extends StrategiePersonnage{
 					console.setPhrase("Je ramasse une potion");
 					arene.ramassePotion(refRMI, refCible);
 
-				} else if(elemPlusProche instanceof Personnage){
+				} else if(elemPlusProche instanceof Personnage){// personnage
 					//duel
 					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
 					arene.lanceAttaque(refRMI, refCible);
-				}else{
-					//Sinon j'erre (potion inutile)
+				}else{ //potion inutile
+					//j'erre
 					console.setPhrase("J'erre..."+ potionUtile);
 					arene.deplace(refRMI, 0);
 				}
@@ -128,7 +128,7 @@ public class StratArcher extends StrategiePersonnage{
 				arene.deplace(refRMI, refCible);
 			} else {
 				//Sinon j'erre (potion inutile)
-				console.setPhrase("J'erre..."+ potionUtile);
+				console.setPhrase("J'erre, cette potion ne m'ait pas utile...");
 				arene.deplace(refRMI, 0);
 			}
 		}

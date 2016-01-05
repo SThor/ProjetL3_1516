@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import serveur.element.Passif;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
 
@@ -73,7 +74,8 @@ public class Teleportation {
 	public void seDirigeVers(Point objectif) throws RemoteException {
 		Point cible = Calculs.restreintPositionArene(objectif); 
 		
-		if(cible != null) {
+		//on ne peut se teleporter que si le cooldown est a 0
+		if(cible != null && personnage.getElement().getPassifs().get(Passif.TeleportationCoolDown)==0) {
 			personnage.setPosition(cible);
 		}
 	}

@@ -22,6 +22,7 @@ import serveur.element.Element;
 import serveur.element.Passif;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.interaction.AttaqueDistante;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
 import serveur.interaction.Ramassage;

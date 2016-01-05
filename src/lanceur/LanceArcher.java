@@ -20,7 +20,7 @@ public class LanceArcher {
 	private static String usage = "USAGE : java " + LancePersonnage.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		String nom = "Truc";
+		String nom = "Archer";
 		String groupe = "G15"; 
 		
 		// nombre de tours pour ce personnage avant d'etre deconnecte 

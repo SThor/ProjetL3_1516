@@ -14,7 +14,7 @@ import utilitaires.Constantes;
 public class AttaqueDistante extends Interaction<VuePersonnage> {
 
 	//Precision demandee pour tirer sur la cible
-	double precision = 0.3 ; 
+	double precision = 0.6; 
 	
 	/**
 	 * Cree une interaction d'attaque ˆ distance.
@@ -38,8 +38,8 @@ public class AttaqueDistante extends Interaction<VuePersonnage> {
 			//Verifie que le tire est superieur a la precision demandee
 			//Si oui, la perte de vie est egale a la force divise par 2 (une attaque a distante etant moins puissante qu'une attaque au corps a corps)
 			//Sinon aucun degat n'est subit
-			if (tire >= precision){
-				perteVie = (forceAttaquant /2) ;
+			if (tire <= precision){
+				perteVie = (forceAttaquant / 2) ;
 			} else {
 				perteVie = 0 ;
 			}

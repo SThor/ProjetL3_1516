@@ -12,14 +12,17 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 /**
- * Strategie d'un personnage. 
+ * Ce personnage attaque a distance des qu'il peut
+ * S'il est suffisament pres, il attaque au corps a corps (duel)
+ * Il ne ramasse ni va vers les potions qu'il trouve inutile (le tue et/ou moyenne des caracteristique < 30)
  */
 public class StratArcher extends StrategiePersonnage{
-
+	
 	/**
 	 * Cree un personnage, la console associe et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
@@ -39,10 +42,8 @@ public class StratArcher extends StrategiePersonnage{
 		super( ipArene,  port,  ipConsole,  nom,
 				groupe, caracts,
 				nbTours,  position,  logger);
-
 	}
-
-
+	
 	/** 
 	 * Decrit la strategie.
 	 * Les methodes pour evoluer dans le jeu doivent etre les methodes RMI
@@ -50,7 +51,11 @@ public class StratArcher extends StrategiePersonnage{
 	 * @param voisins element voisins de cet element (elements qu'il voit)
 	 * @throws RemoteException
 	 */
+	
 	public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
+		
+		int vie = console.getPersonnage().getCaract(Caracteristique.VIE);
+		
 		// arene
 		IArene arene = console.getArene();
 
@@ -59,6 +64,9 @@ public class StratArcher extends StrategiePersonnage{
 
 		// position de l'element courant
 		Point position = null;
+		
+		// flag de potion inutile
+		boolean potionUtile = false;
 
 		try {
 			refRMI = console.getRefRMI();
@@ -68,16 +76,22 @@ public class StratArcher extends StrategiePersonnage{
 		}
 
 		if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
-			console.setPhrase("J'erre...");
+			console.setPhrase("J'erre..." + vie);
 			arene.deplace(refRMI, 0);
 
 		} else {
 			int refCible = Calculs.chercheElementProche(position, voisins);
 			int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
-
 			Element elemPlusProche = arene.elementFromRef(refCible);
-
-			if(distPlusProche <= Constantes.DISTANCE_MIN_ATT_DISTANTE) { //si vu par att distante
+			
+			//verifie qu'une potion est utile, en demandant une moyenne des stats a 30 et sans nous tuer...
+			potionUtile = (elemPlusProche instanceof Potion) && ((elemPlusProche.getCaract(Caracteristique.VIE) + vie < 0 ) &&
+						(elemPlusProche.getCaract(Caracteristique.FORCE) 
+					  + elemPlusProche.getCaract(Caracteristique.INITIATIVE)
+					  + elemPlusProche.getCaract(Caracteristique.VIE)) / 3 <= 30);
+			
+			//si vu par att distante et non au corps a corps
+			if(distPlusProche <= Constantes.DISTANCE_MIN_ATT_DISTANTE && distPlusProche > Constantes.DISTANCE_MIN_INTERACTION ) { 
 				if(elemPlusProche instanceof Personnage) { //personnage
 					//tire
 					console.setPhrase("Je tire vers mon ennemi "+ elemPlusProche.getNom());
@@ -85,16 +99,28 @@ public class StratArcher extends StrategiePersonnage{
 				}
 			} else if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
 				// j'interagis directement
-				if(elemPlusProche instanceof Potion) { // potion
+				if(potionUtile) { // c'est une potion utile
 					// ramassage
-					console.setPhrase("Je ramasse une potion");
-					arene.ramassePotion(refRMI, refCible);
-				} 
-			} else { 
-				// si voisins, mais plus eloignes
+					if (elemPlusProche.getCaract(Caracteristique.VIE) <= 0 &&
+						elemPlusProche.getCaract(Caracteristique.FORCE) <= 0 &&
+						elemPlusProche.getCaract(Caracteristique.INITIATIVE) <= 0){
+							console.setPhrase("Je ramasse une potion");
+							arene.ramassePotion(refRMI, refCible);
+					}
+				} else if(elemPlusProche instanceof Personnage){
+					//duel
+					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
+					arene.lanceAttaque(refRMI, refCible);
+				}
+			} else if(elemPlusProche instanceof Personnage || potionUtile) { 
+				// si voisins, mais plus eloignes 
 				// je vais vers le plus proche
 				console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 				arene.deplace(refRMI, refCible);
+			} else {
+				//Sinon j'erre (potion inutile)
+				console.setPhrase("J'erre..." + vie);
+				arene.deplace(refRMI, 0);
 			}
 		}
 	}

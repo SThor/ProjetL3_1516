@@ -29,6 +29,8 @@ public class PotionCarac extends Potion{
 		}else{
 			if (force >= ini){
 				newNom = "Juggernog";
+			}else{
+				newNom = "Pafarouch";
 			}
 		}
 		this.setNom(newNom);

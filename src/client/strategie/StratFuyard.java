@@ -15,13 +15,13 @@ import utilitaires.Calculs;
 
 /* 
  * Cette classe met en place le comportement de type "Fuyard".
- * Celui-ci fuit les combats même si il pouvait les gagner en sélectionnant parmis les directions celle qui l'éloigne le plus de tous les ennemis en vue
+ * Celui-ci fuit les combats mï¿½me si il pouvait les gagner en sï¿½lectionnant parmis les directions celle qui l'ï¿½loigne le plus de tous les ennemis en vue
  */
 public class StratFuyard extends StrategiePersonnage {
 
 	public StratFuyard(	String ipArene, int port, String ipConsole, String nom,
-			String groupe, HashMap<Caracteristique, Integer> caracts,
-			int nbTours, Point position, LoggerProjet logger) 
+						String groupe, HashMap<Caracteristique, Integer> caracts,
+						int nbTours, Point position, LoggerProjet logger) 
 	{
 		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 	}
@@ -70,7 +70,7 @@ public class StratFuyard extends StrategiePersonnage {
 				new Point((int)position.getX() -1 , (int)position.getY() - 1)
 		};
 		
-		int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
+		int[] distancesTotales = new int[8]; // La distance additionnï¿½e entre les ennemis et le personnage en choisissant la case i
 		int nbEnnemisProches =0;
 		for(int i = 0; i < 8; i++){
 			if(Calculs.estDansArene(possibilites[i])){
@@ -107,7 +107,7 @@ public class StratFuyard extends StrategiePersonnage {
 		IArene arene = console.getArene();
 		for(int j = 0; j< possibilites.length; j++){
 			if(Calculs.estDansArene(possibilites[j])){
-				int distanceTotale = 0; //La distance additionnée entre les ennemis et le personnage
+				int distanceTotale = 0; //La distance additionnï¿½e entre les ennemis et le personnage
 				Iterator it = voisins.keySet().iterator();
 				while(it.hasNext())
 					try {
@@ -121,7 +121,7 @@ public class StratFuyard extends StrategiePersonnage {
 						e.printStackTrace();
 					}
 				}
-	//On choisi la direction qui nous éloigne le plus en moyenne
+	//On choisi la direction qui nous ï¿½loigne le plus en moyenne
 	if(distanceTotale / nbEnnemisProches < meilleureMoyenneDistance){
 		meilleureMoyenneDistance = distanceTotale / nbEnnemisProches;
 		meilleurPoint = j;

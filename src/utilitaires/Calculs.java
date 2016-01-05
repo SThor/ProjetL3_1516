@@ -220,4 +220,20 @@ public class Calculs {
 		
 		return res;
 	}
+	
+	public static HashMap<Caracteristique, Integer> initCarac(){
+		HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique, Integer>();
+		caracts.put(Caracteristique.VIE, 0);
+		caracts.put(Caracteristique.FORCE, 0);
+		caracts.put(Caracteristique.INITIATIVE, 0);
+		return caracts;
+	}
+	
+	public static HashMap<Caracteristique,Integer> CaracRandom(){
+		HashMap<Caracteristique,Integer> caracPotion = new HashMap<Caracteristique,Integer>();
+		caracPotion.put(Caracteristique.VIE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.VIE));
+		caracPotion.put(Caracteristique.FORCE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.FORCE));
+		caracPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.INITIATIVE));
+		return caracPotion;
+	}
 }

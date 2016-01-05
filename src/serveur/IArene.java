@@ -254,5 +254,18 @@ public interface IArene extends Remote {
 	 */
 	public void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException;
 	
+	/**
+	 * Teleporte le personnage correspondant a la console donne sur l'element 
+	 * correspondant a la reference RMI cible.
+	 * La teleportation echoue si une action a deja ete executee a ce tour par 
+	 * ce personnage, ou si le cooldown de teleportation est positif.
+	 * @param refRMI reference RMI du personnage voulant se teleporter
+	 * @param refCible reference RMI de l'element vers lequel on veut se 
+	 * teleporter, ou 0 si on veut se teleporter aleatoirement
+	 * @return vrai si l'action a bien eu lieu, faux sinon
+	 * @throws RemoteException
+	 */
+	boolean teleporte(int refRMI, int refCible) throws RemoteException;
+	
 }
 

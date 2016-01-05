@@ -16,7 +16,21 @@ public class PotionCarac extends Potion{
 	 */
 	public PotionCarac(String groupe) {
 		super("", groupe,Calculs.CaracRandom());
-		String newNom = "V= "+this.getCaract(Caracteristique.VIE) + "// F= "+this.getCaract(Caracteristique.FORCE) + "// I= "+this.getCaract(Caracteristique.INITIATIVE);
+		int vie = this.getCaract(Caracteristique.VIE);
+		int force = this.getCaract(Caracteristique.FORCE);
+		int ini = this.getCaract(Caracteristique.INITIATIVE);
+		String newNom = "SpeedCola";
+		if (vie >= force){
+			if (vie >= ini){
+				newNom = "Vitavi";
+			}else{
+				newNom = "Pafarouch";
+			}
+		}else{
+			if (force >= ini){
+				newNom = "Juggernog";
+			}
+		}
 		this.setNom(newNom);
 	}
 	

@@ -1,14 +1,18 @@
 package utilitaires;
 
 import java.awt.Point;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
-import static utilitaires.Constantes.*;
 
+import static utilitaires.Constantes.*;
+import serveur.IArene;
 import serveur.element.Caracteristique;
+import serveur.element.Personnage;
 
 /**
  * Classe regroupant quelques methodes utiles pour l'arene (distance, case vide,
@@ -235,5 +239,32 @@ public class Calculs {
 		caracPotion.put(Caracteristique.FORCE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.FORCE));
 		caracPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.INITIATIVE));
 		return caracPotion;
+	}
+	
+	/**
+	 * Cherche le personnage le plus proche vers lequel se didiger, dans la limite
+	 * de la vision du personnnage.
+	 * @param origine position a partir de laquelle on cherche
+	 * @param voisins liste des voisins
+	 * @return reference de l'element le plus proche, 0 si il n'y en a pas
+	 * @throws RemoteException 
+	 */
+	public static int cherchePersonnageProche(IArene arene,Point origine, HashMap<Integer, Point> voisins) throws RemoteException {
+		int distPlusProche = VISION;
+		int refPlusProche = 0;
+		
+		Iterator it = voisins.keySet().iterator();
+		int i = 0;
+		while(it.hasNext()){
+			int reference = (int)it.next();
+			if(arene.elementFromRef(reference) instanceof Personnage){
+				if (distanceChebyshev(origine, (Point)((List)voisins.values()).get(i)) <= distPlusProche) {
+					distPlusProche = Calculs.distanceChebyshev(origine, (Point)((List)voisins.values()).get(i));
+					refPlusProche = reference;
+				}
+			}
+		}
+
+		return refPlusProche;
 	}
 }

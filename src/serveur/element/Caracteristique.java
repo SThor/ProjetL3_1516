@@ -17,11 +17,22 @@ public enum Caracteristique {
 	 * Force : indique les degats infliges. 
 	 */
 	FORCE("Force", "FOR", 0, 100, 1),
-		
+	
+	
 	/**
 	 * Initiative : definit l'ordre d'action des personnages lors d'un tour de jeu. 
 	 */
 	INITIATIVE("Initiative", "INIT", 0, 200, 50);
+	
+	/**
+	 * Esquive : definit la probabilite d'eviter un coup
+	 */
+	//ESQUIVE("Esquive","ESQ",0,100,50),
+	
+	/**
+	 * Vitesse :  definit la vitesse de deplacement par tour
+	 */
+	//VITESSE("Vitesse","VIT",1,5,1)
 	
 	/**
 	 * Nom complet.

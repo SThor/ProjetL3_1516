@@ -79,7 +79,8 @@ public class Personnage extends Element {
 		}
 		
 		for(Entry<Passif, Integer> passif :passifs.entrySet()){
-			passifs.put(passif.getKey(), passif.getValue()-1);
+			if(passif.getValue()>0)
+				passifs.put(passif.getKey(), passif.getValue()-1);
 		}
 	}
 }

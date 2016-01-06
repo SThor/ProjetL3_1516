@@ -56,10 +56,13 @@ public class Ramassage extends Interaction<VuePotion> {
 					}
 				}else if (defenseur.getElement() instanceof PotionConfusion){
 					attaquant.getElement().getPassifs().put(Passif.Confusion, Constantes.CONFUSION_DEFAUT);
+					logs(Level.INFO, "Potion de confusion bue !");
 				}else if (defenseur.getElement() instanceof PotionSoin){
 					attaquant.getElement().getPassifs().put(Passif.Soin, Constantes.SOIN_DEFAUT);
+					logs(Level.INFO, "Potion de soins bue !");
 				}else if (defenseur.getElement() instanceof PotionInvisibilite) {
 					attaquant.getElement().getPassifs().put(Passif.Invisibilite, Constantes.INVISIBILITE_DEFAUT);
+					logs(Level.INFO, "Potion d'invisibilite bue !");
 				}
 
 				// suppression de la potion

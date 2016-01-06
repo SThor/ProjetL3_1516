@@ -879,7 +879,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 	
 	@Override
-	// se déplacer vers une référence
+	// se deplacer vers une reference
 	public boolean deplace(int refRMI, int refCible) throws RemoteException {		
 		boolean res = false;
 		
@@ -891,8 +891,20 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			
 		} else {
 			// sinon, on tente de jouer l'interaction
+			
+			//On se deplace quatre fois si c'est un elfe
+			if(client.getElement() instanceof Elfe){
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				
+			}
+			
 			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
 			client.executeAction();
+			
+
 			
 			res = true;
 		}
@@ -911,7 +923,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);
 			
 		} else if(client.getElement().getPassifs().get(Passif.TeleportationCoolDown)>0){
-			logger.info("Impossible se téléporter");
+			logger.info("Impossible se teleporter");
 		} else {
 			// sinon, on tente de jouer l'interaction
 			new Teleportation(client, getVoisins(refRMI)).seTeleporteA(refCible);
@@ -955,16 +967,21 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);
 		} else {
 			// sinon, on tente de jouer l'interaction
+			//On se deplace quatre fois si c'est un elfe
+			if(client.getElement() instanceof Elfe){
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+			}
+			
 			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
 			client.executeAction();
+			
+
 
 			res = true;
-			if ( client.getElement() instanceof Elfe){
-				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
-				client.executeAction();
-
-				res = true;
-			}
+			
 		}
 		
 		return res;

@@ -12,6 +12,9 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.personnage.Elfe;
+import serveur.element.personnage.Orks;
+import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -39,13 +42,23 @@ public class StrategiePersonnage {
 	 */
 	public StrategiePersonnage(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
-			int nbTours, Point position, LoggerProjet logger) {
+			int nbTours, Point position, LoggerProjet logger, Persons type) {
 		
 		logger.info("Lanceur", "Creation de la console...");
-		
+		Personnage personnage;
+		switch (type){
+			case ELFE:
+				personnage = new Elfe(nom, groupe, caracts);
+				break;
+			case ORKS:
+				personnage = new Orks(nom, groupe, caracts);
+				break;
+			default:
+				personnage = new Personnage(nom, groupe, caracts);
+		}
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe, caracts), 
+					personnage, 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			

@@ -1,3 +1,4 @@
+
 package lanceur;
 
 import java.io.IOException;
@@ -53,21 +54,21 @@ public class LancePotion {
 			IArene arene = (IArene) java.rmi.Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
 			logger.info("Lanceur", "Lancement de la potion sur le serveur...");
 			
-			// le choix de la potion à lancer ce fait aléatoirement
+			// le choix de la potion a lancer se fait aleatoirement
 			double rd = Math.random();
 			double i = Constantes.TX_POTION_INVI;
 			if (rd < i){
 				arene.ajoutePotion(new PotionInvisibilite(groupe), Calculs.positionAleatoireArene());
-				logger.info("Lanceur", "Lancement de la potion mystère reussi");
+				logger.info("Lanceur", "Lancement de la potion d'invisibilite reussi");
 			}else{
 				if (i<=rd && rd<i+Constantes.TX_POTION_CONFU){
 					arene.ajoutePotion(new PotionConfusion(groupe), Calculs.positionAleatoireArene());
-					logger.info("Lanceur", "Lancement de la potion mystère reussi");
+					logger.info("Lanceur", "Lancement de la potion de confusion reussi");
 				}else{
 					i+=Constantes.TX_POTION_CONFU;
 					if (i<=rd && rd<i+Constantes.TX_POTION_SOIN){
 						arene.ajoutePotion(new PotionSoin(groupe), Calculs.positionAleatoireArene());
-						logger.info("Lanceur", "Lancement de la potion mystère reussi");
+						logger.info("Lanceur", "Lancement de la potion de soin reussi");
 					}else{
 						arene.ajoutePotion(new PotionCarac(groupe), Calculs.positionAleatoireArene());
 						logger.info("Lanceur", "Lancement de la potion de boost reussi");

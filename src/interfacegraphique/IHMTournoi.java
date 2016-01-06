@@ -21,7 +21,6 @@ import interfacegraphique.interfacetournoi.ControleJPanel;
 import interfacegraphique.interfacetournoi.FenetreCreationPotion;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
-import serveur.element.Potion;
 import serveur.element.PotionCarac;
 import serveur.vuelement.VueElement;
 

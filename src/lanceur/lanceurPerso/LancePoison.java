@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
 
-import client.strategie.StratArcher;
 import client.strategie.StratPoison;
 import lanceur.ErreurLancement;
 import logger.LoggerProjet;

@@ -267,8 +267,8 @@ public class Calculs {
 		while(it.hasNext()){
 			int reference = (int)it.next();
 			if(arene.elementFromRef(reference) instanceof Personnage){
-				if (distanceChebyshev(origine, (Point)((List)voisins.values()).get(i)) <= distPlusProche) {
-					distPlusProche = Calculs.distanceChebyshev(origine, (Point)((List)voisins.values()).get(i));
+				if (distanceChebyshev(origine, (Point)((List<Point>)voisins.values()).get(i)) <= distPlusProche) {
+					distPlusProche = Calculs.distanceChebyshev(origine, (Point)((List<Point>)voisins.values()).get(i));
 					refPlusProche = reference;
 				}
 			}

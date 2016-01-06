@@ -16,14 +16,14 @@ import utilitaires.Constantes;
 
 public class StratPoison extends StrategiePersonnage {
 	
-	ArrayList potionDejaEmpoisonnee;
+	ArrayList<Integer> potionDejaEmpoisonnee;
 	
 	public StratPoison(	String ipArene, int port, String ipConsole, String nom,
 			String groupe, HashMap<Caracteristique, Integer> caracts,
 			int nbTours, Point position, LoggerProjet logger) 
 	{
 		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
-		potionDejaEmpoisonnee = new ArrayList();
+		potionDejaEmpoisonnee = new ArrayList<Integer>();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class StratPoison extends StrategiePersonnage {
 			}else{
 				if (distPersoPlusProche <= Constantes.DISTANCE_MIN_ATT_DISTANTE){ 
 					String nom = arene.elementFromRef(refPersoPlusProche).getNom();
-					console.setPhrase("Je vais annihiler "+nom+" grâce à mon arc.");
+					console.setPhrase("Je vais annihiler "+nom+" grace a mon arc.");
 					arene.lanceAttaqueDistante(refRMI,refPersoPlusProche);
 				}else{
 					console.setPhrase("J'erre...");

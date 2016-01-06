@@ -1,6 +1,5 @@
 package serveur.interaction;
 
-import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
@@ -8,7 +7,6 @@ import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
 import serveur.vuelement.VuePersonnage;
-import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 public class AttaqueDistante extends Interaction<VuePersonnage> {
@@ -17,7 +15,7 @@ public class AttaqueDistante extends Interaction<VuePersonnage> {
 	double precision = 0.6; 
 	
 	/**
-	 * Cree une interaction d'attaque ˆ distance.
+	 * Cree une interaction d'attaque a distance.
 	 * @param arene arene
 	 * @param attaquant attaquant
 	 * @param defenseur defenseur

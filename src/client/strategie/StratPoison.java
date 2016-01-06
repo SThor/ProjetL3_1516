@@ -53,7 +53,7 @@ public class StratPoison extends StrategiePersonnage {
 			int distPotionPlusProche = 100;
 			int refPersoPlusProche=-1;
 			int distPersoPlusProche= 100;
-			Iterator it = voisins.keySet().iterator();
+			Iterator<Integer> it = voisins.keySet().iterator();
 			while(it.hasNext()){
 				int reference = (int)it.next();
 				if(arene.elementFromRef(reference) instanceof Potion 

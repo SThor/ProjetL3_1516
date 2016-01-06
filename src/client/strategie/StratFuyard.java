@@ -119,7 +119,7 @@ public class StratFuyard extends StrategiePersonnage {
 		int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
 		for(int i = 0; i < possibilites.length; i++){
 			if(Calculs.estDansArene(possibilites[i])){
-				Iterator it = voisins.keySet().iterator();
+				Iterator<Integer> it = voisins.keySet().iterator();
 				while(it.hasNext()){
 					int reference = (int)it.next();
 					if(arene.elementFromRef(reference) instanceof Personnage){
@@ -149,7 +149,7 @@ public class StratFuyard extends StrategiePersonnage {
 	private HashMap<Integer, Point> getPersonnagesVoisins(HashMap<Integer,Point>  voisins) throws RemoteException{
 		HashMap<Integer, Point> personnages = voisins;
 		IArene arene = console.getArene();
-		Iterator it = personnages.keySet().iterator();
+		Iterator<Integer> it = personnages.keySet().iterator();
 		while(it.hasNext()){
 			int reference = (int)it.next();
 			if(!(arene.elementFromRef(reference) instanceof Personnage)){

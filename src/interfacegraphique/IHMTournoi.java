@@ -22,6 +22,7 @@ import interfacegraphique.interfacetournoi.FenetreCreationPotion;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
+import serveur.element.PotionCarac;
 import serveur.vuelement.VueElement;
 
 /**
@@ -225,7 +226,7 @@ public class IHMTournoi extends IHM {
 			demandeMotDePasse();
 		} else {
 			try {
-				arene.lancePotion(new Potion(nom, "Arene", ht), position, motDePasse);
+				arene.lancePotion(new PotionCarac("Arene"), position, motDePasse);
 			} catch (RemoteException e) {
 				erreurConnexion(e);
 			}

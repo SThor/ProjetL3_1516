@@ -84,7 +84,7 @@ public class StratBourrin extends StrategiePersonnage {
 		int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
 		for(int i = 0; i < 8; i++){
 			if(Calculs.estDansArene(possibilites[i])){
-				Iterator it = voisins.keySet().iterator();
+				Iterator<Integer> it = voisins.keySet().iterator();
 				while(it.hasNext()){
 					int reference = (int)it.next();
 					if(arene.elementFromRef(reference) instanceof Personnage){

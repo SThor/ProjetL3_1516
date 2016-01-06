@@ -1,6 +1,7 @@
 package lanceur;
 
-import lanceurPerso.LancePoison;
+import lanceur.*;
+import lanceur.lanceurPerso.*;
 
 public class MultiLanceur {
 	public static void main(String[] args) {

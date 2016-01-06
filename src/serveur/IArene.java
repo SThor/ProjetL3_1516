@@ -9,7 +9,12 @@ import client.controle.IConsole;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.interaction.EmpoisonerPotion;
 import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePersonnage;
+import serveur.vuelement.VuePotion;
+import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
  * Definit les methodes qui pourront s'appliquer a l'arene par le reseau.
@@ -201,6 +206,16 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public boolean deplace(int refRMI, int refCible) throws RemoteException;
+	
+	/**
+	 * Empoisonne une potion 
+	 * Rien ne se passe si la distance d'interaction n'est pas respectée
+	 * @param refRMI reference RMI du personnage voulant empoisonner
+	 * @param refCible reference RMI de la potion a empoisonner
+	 * @return vrai si l'action a bien eu lieu, faux sinon
+	 * @throws RemoteException
+	 */
+	public void empoisonne(int refRMI, int refCible) throws RemoteException;
 	
 	/**
 	 * Deplace le personnage correspondant a la console donne vers le point 

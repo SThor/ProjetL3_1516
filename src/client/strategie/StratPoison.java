@@ -67,8 +67,13 @@ public class StratPoison extends StrategiePersonnage {
 				}
 			}
 			if (refPotionPlusProche != -1){
-				console.setPhrase("Je vais empoisonner cette potion!");
-				arene.deplace(refRMI, refPotionPlusProche);
+				if (distPotionPlusProche <= Constantes.DISTANCE_MIN_INTERACTION){
+					console.setPhrase("Je vais empoisonner cette potion!");
+					arene.empoisonne(refRMI, refPotionPlusProche);
+				}else{
+					console.setPhrase("Je vais vers la potion");
+					arene.deplace(refRMI, refPotionPlusProche);
+				}
 			}else{
 				if (distPersoPlusProche <= Constantes.DISTANCE_MIN_ATT_DISTANTE){ 
 					String nom = arene.elementFromRef(refPersoPlusProche).getNom();

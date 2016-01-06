@@ -922,9 +922,8 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		return res;
 	}
 	
-	public boolean empoisonne(int refRMI, int refCible) throws RemoteException {		
-		boolean res = false;
-		
+	public void empoisonne(int refRMI, int refCible) throws RemoteException {		
+
 		VuePersonnage client = personnages.get(refRMI);
 		VuePotion potion = potions.get(refCible);
 		
@@ -932,11 +931,13 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);		
 		} else {
-			new EmpoisonerPotion(this,client,potion).interagit();
-			client.executeAction();
+			if (Calculs.distanceChebyshev(client.getPosition(), potion.getPosition()) <= Constantes.DISTANCE_MIN_INTERACTION){
+				new EmpoisonerPotion(this,client,potion).interagit();
+				client.executeAction();
+			}else{
+				logger.info("Impossible d'empoisonner a cette distance.");
+			}
 		}
-		
-		return res;
 	}
 
 	@Override

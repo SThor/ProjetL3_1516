@@ -77,7 +77,7 @@ public class LancePersonnage {
 			
 			Point position = Calculs.positionAleatoireArene();
 			
-			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.ELFE);
+			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.HUMAIN);
 			logger.info("Lanceur", "Creation du personnage reussie");
 			
 		} catch (Exception e) {

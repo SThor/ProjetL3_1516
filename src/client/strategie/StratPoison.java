@@ -56,7 +56,9 @@ public class StratPoison extends StrategiePersonnage {
 			Iterator it = voisins.keySet().iterator();
 			while(it.hasNext()){
 				int reference = (int)it.next();
-				if(arene.elementFromRef(reference) instanceof Potion && distPotionPlusProche > Calculs.distanceChebyshev(position, voisins.get((Integer) reference)) && potionDejaEmpoisonnee.contains(reference)){
+				if(arene.elementFromRef(reference) instanceof Potion 
+					&& distPotionPlusProche > Calculs.distanceChebyshev(position, voisins.get((Integer) reference)) 
+					&& !potionDejaEmpoisonnee.contains(reference)){
 					refPotionPlusProche = reference;
 					distPotionPlusProche = Calculs.distanceChebyshev(position, voisins.get((Integer) reference));
 				}else{

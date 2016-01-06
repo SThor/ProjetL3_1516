@@ -147,7 +147,7 @@ public class Calculs {
 	 * @return valeur aleatoire generee
 	 */
 	public static int valeurCaracAleatoire(Caracteristique c) {
-		return nombreAleatoire(c.getMin(), c.getMax());
+		return nombreAleatoire(0, 20);
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class Calculs {
 	 * @return valeur aleatoire generee
 	 */
 	public static int valeurCaracAleatoirePosNeg(Caracteristique c) {
-		return nombreAleatoire(-c.getMax(), c.getMax());
+		return nombreAleatoire(-20, 20);
 	}
 	
 	/**

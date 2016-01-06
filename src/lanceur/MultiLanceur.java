@@ -4,13 +4,19 @@ import lanceurPerso.LancePoison;
 
 public class MultiLanceur {
 	public static void main(String[] args) {
-		LanceArene.main(null);
-		LanceIHM.main(null);
+		LanceArene lanceArene = new LanceArene();
+		LanceIHM lanceIHM = new LanceIHM();
+		LancePotion lancepotion;
+		LancePoison lancepoison;
+		lanceArene.main(args);
+		lanceIHM.main(args);
 		for(int i = 0; i < 10 ; i++){
-			LancePotion.main(null);
+			lancepotion = new LancePotion();
+			lancepotion.main(args);
 		}
 		for(int i = 0; i < 10 ; i++){
-			LancePoison.main(null);
+			lancepoison = new LancePoison();
+			lancepoison.main(args);
 		}
 	}
 }

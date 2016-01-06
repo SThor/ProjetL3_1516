@@ -62,7 +62,7 @@ public class StratPoison extends StrategiePersonnage {
 					refPotionPlusProche = reference;
 					distPotionPlusProche = Calculs.distanceChebyshev(position, voisins.get((Integer) reference));
 				}else{
-					if(distPotionPlusProche > Calculs.distanceChebyshev(position, voisins.get((Integer) reference))){
+					if(distPersoPlusProche > Calculs.distanceChebyshev(position, voisins.get((Integer) reference)) && arene.elementFromRef(reference) instanceof Personnage){
 						refPersoPlusProche = reference;
 						distPersoPlusProche = Calculs.distanceChebyshev(position, voisins.get((Integer) reference));
 					}

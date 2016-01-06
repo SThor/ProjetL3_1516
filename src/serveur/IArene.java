@@ -215,7 +215,7 @@ public interface IArene extends Remote {
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public void empoisonne(int refRMI, int refCible) throws RemoteException;
+	public boolean empoisonne(int refRMI, int refCible) throws RemoteException;
 	
 	/**
 	 * Deplace le personnage correspondant a la console donne vers le point 

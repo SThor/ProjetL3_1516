@@ -1,23 +1,16 @@
 package lanceur;
 
-import lanceur.*;
-import lanceur.lanceurPerso.*;
+import lanceur.lanceurPerso.LancePoison;
 
 public class MultiLanceur {
 	public static void main(String[] args) {
-		LanceArene lanceArene = new LanceArene();
-		LanceIHM lanceIHM = new LanceIHM();
-		LancePotion lancepotion;
-		LancePoison lancepoison;
-		lanceArene.main(args);
-		lanceIHM.main(args);
+		LanceArene.main(args);
+		LanceIHM.main(args);
 		for(int i = 0; i < 10 ; i++){
-			lancepotion = new LancePotion();
-			lancepotion.main(args);
+			LancePotion.main(args);
 		}
 		for(int i = 0; i < 10 ; i++){
-			lancepoison = new LancePoison();
-			lancepoison.main(args);
+			LancePoison.main(args);
 		}
 	}
 }

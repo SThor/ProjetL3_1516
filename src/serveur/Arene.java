@@ -22,6 +22,7 @@ import serveur.element.Element;
 import serveur.element.Passif;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.personnage.Elfe;
 import serveur.interaction.AttaqueDistante;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
@@ -943,7 +944,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 
 	@Override
-	// se déplacer sur un point précis
+	// se deplacer sur un point precis, double si c'est un elfe
 	public boolean deplace(int refRMI, Point objectif) throws RemoteException {
 		boolean res = false;
 		
@@ -958,6 +959,12 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			client.executeAction();
 
 			res = true;
+			if ( client.getElement() instanceof Elfe){
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				client.executeAction();
+
+				res = true;
+			}
 		}
 		
 		return res;

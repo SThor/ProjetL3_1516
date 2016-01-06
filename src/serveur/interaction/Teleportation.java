@@ -15,18 +15,21 @@ public class Teleportation {
 	 * Vue du personnage qui veut se deplacer.
 	 */
 	private VuePersonnage personnage;
-	
+
 	/**
-	 * References RMI et vues des voisins (calcule au prealable). 
+	 * References RMI et vues des voisins (calcule au prealable).
 	 */
 	private HashMap<Integer, Point> voisins;
-	
+
 	/**
 	 * Cree un deplacement.
-	 * @param personnage personnage voulant se deplacer
-	 * @param voisins voisins du personnage
+	 * 
+	 * @param personnage
+	 *            personnage voulant se deplacer
+	 * @param voisins
+	 *            voisins du personnage
 	 */
-	public Teleportation(VuePersonnage personnage, HashMap<Integer, Point> voisins) { 
+	public Teleportation(VuePersonnage personnage, HashMap<Integer, Point> voisins) {
 		this.personnage = personnage;
 
 		if (voisins == null) {
@@ -37,53 +40,71 @@ public class Teleportation {
 	}
 
 	/**
-	 * Deplace ce sujet sur l'element dont la reference
-	 * est donnee.
-	 * Si la reference est la reference de l'element courant, il ne bouge pas ;
-	 * si la reference est egale a 0, il se teleporte a un endroit aleatoire ;
-	 * sinon il va sur le voisin correspondant (s'il existe dans les voisins).
-	 * @param refObjectif reference de l'element cible
-	 */    
+	 * Deplace ce sujet sur l'element dont la reference est donnee. Si la
+	 * reference est la reference de l'element courant, il ne bouge pas ; si la
+	 * reference est egale a 0, il se teleporte a un endroit aleatoire ; sinon
+	 * il va sur le voisin correspondant (s'il existe dans les voisins).
+	 * 
+	 * @param refObjectif
+	 *            reference de l'element cible
+	 */
 	public void seTeleporteA(int refObjectif) throws RemoteException {
 		Point pvers;
 
 		// on ne bouge que si la reference n'est pas la notre
 		if (refObjectif != personnage.getRefRMI()) {
-			
-			// la reference est nulle (en fait, nulle ou negative) : 
+
+			// la reference est nulle (en fait, nulle ou negative) :
 			// le personnage erre
-			if (refObjectif <= 0) { 
+			if (refObjectif <= 0) {
 				pvers = Calculs.positionAleatoireArene();
-						
-			} else { 
+
+			} else {
 				// sinon :
-				// la cible devient le point sur lequel se trouve l'element objectif
+				// la cible devient le point sur lequel se trouve l'element
+				// objectif
 				pvers = voisins.get(refObjectif);
 			}
-	
+
 			// on ne bouge que si l'element existe
-			if(pvers != null) {
+			if (pvers != null) {
 				seTeleporteA(pvers);
 			}
 		}
 	}
 
 	/**
-	 * Deplace ce sujet sur la case donnee.
-	 * @param objectif case cible
+	 * Deplace ce sujet sur la case donnee, a une variance pres, et a condition
+	 * que la case soit dans le champ de vision. Sinon, on prend la case la plus proche.
+	 * 
+	 * @param objectif
+	 *            case cible
 	 * @throws RemoteException
 	 */
 	public void seTeleporteA(Point objectif) throws RemoteException {
-		//variation autour du point vise
+		// si la case n'est pas dans le champ de vision
+		Point objectifRestreint = objectif;
+		if(Calculs.distanceChebyshev(personnage.getPosition(), objectif) >= Constantes.VISION){
+			objectifRestreint = Calculs.restreintPositionVision(objectif, personnage.getPosition());
+		}
+		
+		
+		// variation autour du point vise
 		Random rand = new Random();
-		int xvarie = (int) (objectif.getX())+rand.nextInt(2)-1;
-		int yvarie = (int) (objectif.getY())+rand.nextInt(2)-1;
-		Point objectifVarie = new Point(xvarie,yvarie);
+		int xvarie, yvarie;
+		Point objectifVarie;
 		
+		// on tente une autre variation tant que la cible n'est pas une case vide
+		do  {
+			xvarie = (int) (objectifRestreint.getX()) + rand.nextInt(2) - 1;
+			yvarie = (int) (objectifRestreint.getY()) + rand.nextInt(2) - 1;
+			objectifVarie = new Point(xvarie, yvarie);
+		}while (!Calculs.caseVide(objectifVarie, voisins));
+
 		Point cible = Calculs.restreintPositionArene(objectifVarie);
-		
-		//on ne peut se teleporter que si le cooldown est a 0
-		if(cible != null && personnage.getElement().getPassifs().get(Passif.TeleportationCoolDown)==0) {
+
+		// on ne peut se teleporter que si le cooldown est a 0
+		if (cible != null && personnage.getElement().getPassifs().get(Passif.TeleportationCoolDown) == 0) {
 			personnage.setPosition(cible);
 			personnage.getElement().getPassifs().put(Passif.TeleportationCoolDown, Constantes.CD_TELEPORTATION);
 		}

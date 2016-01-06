@@ -195,6 +195,15 @@ public class Calculs {
 		return new Point(restreintNombre(XMIN_ARENE, XMAX_ARENE, position.x), 
 				restreintNombre(YMIN_ARENE, YMAX_ARENE, position.y));
 	}
+	
+	public static Point restreintPositionVision(Point cible, Point positionPersonnage) {
+		int xmin = positionPersonnage.x-Constantes.VISION;
+		int xmax = positionPersonnage.x+Constantes.VISION;
+		int ymin = positionPersonnage.y-Constantes.VISION;
+		int ymax = positionPersonnage.y+Constantes.VISION;
+		return new Point(restreintNombre(xmin,xmax, cible.x), 
+				restreintNombre(ymin, ymax, cible.y));
+	}
 
 	/**
 	 * Transforme une duree en seconde en une chaine de caracteres de type 

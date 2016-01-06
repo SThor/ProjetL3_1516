@@ -87,9 +87,9 @@ public class StratArcher extends StrategiePersonnage{
 			Element elemPlusProche = arene.elementFromRef(refCible);
 
 			//verifie qu'une potion est utile, en demandant une moyenne des stats a 0 et sans nous tuer
-			//et sans nous faire baisser a moins de 10 une de nos caracteristiques
+			//et sans nous faire baisser a moins de 10 une de nos caracteristiques (30 pour la vie)
 			potionUtile = ((elemPlusProche instanceof Potion) &&
-					((elemPlusProche.getCaract(Caracteristique.VIE) > 0) || (elemPlusProche.getCaract(Caracteristique.VIE) + vie) > 50) && 
+					((elemPlusProche.getCaract(Caracteristique.VIE) > 0) || (elemPlusProche.getCaract(Caracteristique.VIE) + vie) > 30) && 
 					((elemPlusProche.getCaract(Caracteristique.FORCE) > 0) || (elemPlusProche.getCaract(Caracteristique.FORCE) + force) > 10) &&
 					((elemPlusProche.getCaract(Caracteristique.INITIATIVE) > 0) || (elemPlusProche.getCaract(Caracteristique.INITIATIVE) + initiative) > 10) &&
 					((elemPlusProche.getCaract(Caracteristique.VIE) 

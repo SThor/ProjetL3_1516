@@ -1,4 +1,4 @@
-package lanceur;
+package lanceurPerso;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import client.strategie.StratTeleportation;
 import client.strategie.StrategiePersonnage;
+import lanceur.ErreurLancement;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import utilitaires.Calculs;

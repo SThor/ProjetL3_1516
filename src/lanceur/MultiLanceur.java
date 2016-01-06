@@ -1,5 +1,7 @@
 package lanceur;
 
+import lanceurPerso.LancePoison;
+
 public class MultiLanceur {
 	public static void main(String[] args) {
 		//LanceArene lanceArene = new LanceArene();

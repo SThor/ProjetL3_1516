@@ -4,10 +4,7 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-
 import logger.LoggerProjet;
-import serveur.Arene;
 import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
@@ -59,19 +56,19 @@ public class StratFuyard extends StrategiePersonnage {
 	private Point trouverPointFuite(Point position, HashMap<Integer, Point> voisins) throws RemoteException 
 	{
 		IArene arene = console.getArene();
-		
-		Point[] possibilites = new Point[] { new Point((int)position.getX() +1 , (int)position.getY() + 1),
-				new Point((int)position.getX() +1 , (int)position.getY()    ),
-				new Point((int)position.getX() +1 , (int)position.getY() - 1),
-				new Point((int)position.getX()    , (int)position.getY() + 1),
-				new Point((int)position.getX()    , (int)position.getY() - 1),
-				new Point((int)position.getX() -1 , (int)position.getY() + 1),
+
+		Point[] possibilites = new Point[] { 
+				new Point((int)position.getX() -1 , (int)position.getY() - 1),
 				new Point((int)position.getX() -1 , (int)position.getY()    ),
-				new Point((int)position.getX() -1 , (int)position.getY() - 1)
+				new Point((int)position.getX() -1 , (int)position.getY() + 1),
+				new Point((int)position.getX()    , (int)position.getY() - 1),
+				new Point((int)position.getX()    , (int)position.getY() + 1),
+				new Point((int)position.getX() +1 , (int)position.getY() - 1),
+				new Point((int)position.getX() +1 , (int)position.getY()    ),
+				new Point((int)position.getX() +1 , (int)position.getY() + 1)
 		};
-		
+
 		int[] distancesTotales = new int[8]; // La distance additionn�e entre les ennemis et le personnage en choisissant la case i
-		int nbEnnemisProches =0;
 		for(int i = 0; i < 8; i++){
 			if(Calculs.estDansArene(possibilites[i])){
 				Iterator it = voisins.keySet().iterator();
@@ -79,7 +76,6 @@ public class StratFuyard extends StrategiePersonnage {
 					int reference = (int)it.next();
 					if(arene.elementFromRef(reference) instanceof Personnage){
 						distancesTotales[i] += Calculs.distanceChebyshev(possibilites[i], voisins.get((Integer) reference));
-						nbEnnemisProches ++;
 					}
 				}
 			}
@@ -92,11 +88,9 @@ public class StratFuyard extends StrategiePersonnage {
 				meilleurePossibilite = i;
 			}
 		}
-		
+
 		return possibilites[meilleurePossibilite];
-	}
-			
-		
+	}	
 		
 	/*	
 		

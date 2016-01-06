@@ -2,6 +2,7 @@ package client.strategie;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,12 +15,15 @@ import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 public class StratPoison extends StrategiePersonnage {
-
+	
+	ArrayList potionDejaEmpoisonnee;
+	
 	public StratPoison(	String ipArene, int port, String ipConsole, String nom,
 			String groupe, HashMap<Caracteristique, Integer> caracts,
 			int nbTours, Point position, LoggerProjet logger) 
 	{
 		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+		potionDejaEmpoisonnee = new ArrayList();
 	}
 
 	@Override
@@ -62,7 +66,7 @@ public class StratPoison extends StrategiePersonnage {
 					}
 				}
 			}
-			if (refPotionPlusProche == -1){
+			if (refPotionPlusProche != -1){
 				console.setPhrase("Je vais empoisonner cette potion!");
 				arene.deplace(refRMI, refPotionPlusProche);
 			}else{

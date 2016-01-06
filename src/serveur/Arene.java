@@ -25,6 +25,7 @@ import serveur.element.Potion;
 import serveur.interaction.AttaqueDistante;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
+import serveur.interaction.EmpoisonerPotion;
 import serveur.interaction.Ramassage;
 import serveur.interaction.Teleportation;
 import serveur.vuelement.VueElement;
@@ -877,6 +878,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 	
 	@Override
+	// se déplacer vers une référence
 	public boolean deplace(int refRMI, int refCible) throws RemoteException {		
 		boolean res = false;
 		
@@ -908,7 +910,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);
 			
 		} else if(client.getElement().getPassifs().get(Passif.TeleportationCoolDown)>0){
-			//TODO log impossibilite de se TP
+			logger.info("Impossible se téléporter");
 		} else {
 			// sinon, on tente de jouer l'interaction
 			new Teleportation(client, getVoisins(refRMI)).seTeleporteA(refCible);
@@ -919,8 +921,26 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		return res;
 	}
+	
+	public boolean empoisonne(int refRMI, int refCible) throws RemoteException {		
+		boolean res = false;
+		
+		VuePersonnage client = personnages.get(refRMI);
+		VuePotion potion = potions.get(refCible);
+		
+		if (client.isActionExecutee()) {
+			// si une action a deja ete executee
+			logActionDejaExecutee(refRMI);		
+		} else {
+			new EmpoisonerPotion(this,client,potion).interagit();
+			client.executeAction();
+		}
+		
+		return res;
+	}
 
 	@Override
+	// se déplacer sur un point précis
 	public boolean deplace(int refRMI, Point objectif) throws RemoteException {
 		boolean res = false;
 		

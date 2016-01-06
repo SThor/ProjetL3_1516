@@ -19,6 +19,6 @@ public class PotionInvisibilite extends Potion {
 	 * @param caracts caracteristiques de la potion
 	 */
 	public PotionInvisibilite(String groupe) {
-		super("Mystère",groupe,Calculs.initCarac());
+		super("Mystere",groupe,Calculs.initCarac());
 	}
 }

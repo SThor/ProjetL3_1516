@@ -17,7 +17,7 @@ public class PotionConfusion extends Potion {
 	 * @param caracts caracteristiques de la potion
 	 */
 	public PotionConfusion(String groupe) {
-		super("Mystère", groupe,Calculs.initCarac());
+		super("Mystere", groupe,Calculs.initCarac());
 	}
 	
 }

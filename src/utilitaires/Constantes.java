@@ -133,7 +133,7 @@ public class Constantes {
 	}
 	
 	/**
-	 * Taux d'apparition des différentes potions
+	 * Taux d'apparition des differentes potions
 	 */
 	public static final double TX_POTION_INVI = 0.10;
 	public static final double TX_POTION_CONFU = 0.10;
@@ -141,5 +141,9 @@ public class Constantes {
 	
 	public static final int SOIN_DEFAUT = 5;
 
-	public static final Integer CD_TELEPORTATION = 5;
+	public static final int CD_TELEPORTATION = 5;
+
+	public static final int CONFUSION_DEFAUT = 5;
+
+	public static final int INVISIBILITE_DEFAUT = 5;
 }

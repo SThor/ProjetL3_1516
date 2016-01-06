@@ -46,7 +46,7 @@ public class StratBourrin extends StrategiePersonnage {
 		}
 
 		if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
-			console.setPhrase("J'erre...");
+			console.setPhrase("On se fait chier dans cette aventure.");
 			arene.deplace(refRMI, 0); 
 
 		} else {
@@ -55,7 +55,7 @@ public class StratBourrin extends StrategiePersonnage {
 			if(elemPlusProche instanceof Personnage){
 				if(Calculs.distanceChebyshev(position, arene.getPosition(refIlemPlusProche))< Constantes.DISTANCE_MIN_INTERACTION)
 				{
-					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
+					console.setPhrase("Je me bastonne avec " + elemPlusProche.getNom());
 					arene.lanceAttaque(refRMI, refIlemPlusProche);
 				}
 			}

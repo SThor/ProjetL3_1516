@@ -27,7 +27,7 @@ public class StrategiePersonnage {
 	protected Console console;
 
 	/**
-	 * Cree un personnage, la console associe et sa strategie.
+	 * Cree un personnage, la console associee et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
 	 * @param port port de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage

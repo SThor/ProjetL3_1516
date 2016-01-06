@@ -262,7 +262,7 @@ public class Calculs {
 		int distPlusProche = VISION;
 		int refPlusProche = 0;
 		
-		Iterator it = voisins.keySet().iterator();
+		Iterator<Integer> it = voisins.keySet().iterator();
 		int i = 0;
 		while(it.hasNext()){
 			int reference = (int)it.next();

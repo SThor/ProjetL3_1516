@@ -11,14 +11,13 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Passif;
 import serveur.element.Personnage;
-import serveur.element.Potion;
 import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 /* 
  * Cette classe met en place le comportement de type "Fuyard".
- * Celui-ci fuit les combats même si il pouvait les gagner en sélectionnant parmis les directions celle qui l'éloigne le plus de tous les ennemis en vue
+ * Celui-ci fuit les combats meme si il pouvait les gagner en selectionnant parmis les directions celle qui l'eloigne le plus de tous les ennemis en vue
  */
 public class StratFuyard extends StrategiePersonnage {
 
@@ -42,8 +41,8 @@ public class StratFuyard extends StrategiePersonnage {
 	}
 
 	/**
-	 * Decrit la stratégie adoptée par un fuyard 
-	 * Si aucun personnage est en vu, il erre à moins qu'une potion ne soit en vue dans ce cas il s'approche et l'utilise si il peut
+	 * Decrit la strategie adoptee par un fuyard 
+	 * Si aucun personnage est en vu, il erre a moins qu'une potion ne soit en vue dans ce cas il s'approche et l'utilise si il peut
 	 * Sinon il fuit les personnages en vu. 
 	 * Dans le cas ou il a un personnage en vu et  est coince contre un mur, il se teleporte aleatoirement 
 	 * @param voisins element voisins de cet element (elements qu'il voit)
@@ -100,13 +99,13 @@ public class StratFuyard extends StrategiePersonnage {
 				
 				//Si on est contre un mur et que le CD de la teleportation est disponible, on se teleporte 
 				if(presMur && tpDispo){
-					console.setPhrase("Je me téléporte en urgence.");
+					console.setPhrase("Je me teleporte en urgence.");
 					arene.teleporte(refRMI, 0);
 				}
 				else{
 					//Dans les autres cas, que l'on ne soit pas contre un mur ou que le CD de la teleportation n'est pas disponible
-					//On cherche  la case adjacente qui nous éloigne le plus des ennemis en vue
-					int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
+					//On cherche  la case adjacente qui nous eloigne le plus des ennemis en vue
+					int[] distancesTotales = new int[8]; // La distance additionnee entre les ennemis et le personnage en choisissant la case i
 					for(int i = 0; i < possibilites.length; i++){
 						if(Calculs.estDansArene(possibilites[i])){
 							Iterator<Integer> it1 = personnagesVoisins.keySet().iterator();

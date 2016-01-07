@@ -10,6 +10,11 @@ import serveur.element.Personnage;
  */
 public class Orks extends Personnage{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Orks(String nom, String groupe,
 			HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);

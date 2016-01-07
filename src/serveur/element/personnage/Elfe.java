@@ -5,9 +5,14 @@ import java.util.HashMap;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
 /**
- * Un Ork se déplace plus vite
+ * Un Elfe se deplace plus vite
  */
 public class Elfe extends Personnage{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Elfe(String nom, String groupe,
 			HashMap<Caracteristique, Integer> caracts) {

@@ -26,7 +26,7 @@ import serveur.element.personnage.Elfe;
 import serveur.interaction.AttaqueDistante;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
-import serveur.interaction.EmpoisonerPotion;
+import serveur.interaction.EmpoisonnerPotion;
 import serveur.interaction.Ramassage;
 import serveur.interaction.Teleportation;
 import serveur.vuelement.VueElement;
@@ -945,7 +945,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);		
 		} else {
 			if (Calculs.distanceChebyshev(client.getPosition(), potion.getPosition()) <= Constantes.DISTANCE_MIN_INTERACTION){
-				new EmpoisonerPotion(this,client,potion).interagit();
+				new EmpoisonnerPotion(this,client,potion).interagit();
 				client.executeAction();
 				done = true;
 			}else{

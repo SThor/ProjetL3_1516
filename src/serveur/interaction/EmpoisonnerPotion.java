@@ -7,9 +7,9 @@ import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 import utilitaires.Constantes;
 
-public class EmpoisonerPotion extends Interaction<VuePotion> {
+public class EmpoisonnerPotion extends Interaction<VuePotion> {
 
-	public EmpoisonerPotion(Arene arene, VuePersonnage empoisonneur, VuePotion potion) {
+	public EmpoisonnerPotion(Arene arene, VuePersonnage empoisonneur, VuePotion potion) {
 		super(arene, empoisonneur, potion);
 	}
 

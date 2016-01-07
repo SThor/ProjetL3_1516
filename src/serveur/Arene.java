@@ -22,10 +22,11 @@ import serveur.element.Element;
 import serveur.element.Passif;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.personnage.Elfe;
 import serveur.interaction.AttaqueDistante;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
-import serveur.interaction.EmpoisonerPotion;
+import serveur.interaction.EmpoisonnerPotion;
 import serveur.interaction.Ramassage;
 import serveur.interaction.Teleportation;
 import serveur.vuelement.VueElement;
@@ -808,7 +809,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		return res;
 	}
 	
-	//Copier/coller de lanceAttaque mais fait une attaque distante non un duel
+	//lanceAttaque mais fait une AttaqueDistante non un Duel, avec DISTANCE_MIN_ATT_DISTANTE
 	@Override
 	public boolean lanceAttaqueDistante(int refRMI, int refRMIAdv) throws RemoteException {
 		boolean res = false;
@@ -878,7 +879,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 	
 	@Override
-	// se déplacer vers une référence
+	// se deplacer vers une reference
 	public boolean deplace(int refRMI, int refCible) throws RemoteException {		
 		boolean res = false;
 		
@@ -890,8 +891,20 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			
 		} else {
 			// sinon, on tente de jouer l'interaction
+			
+			//On se deplace quatre fois si c'est un elfe
+			if(client.getElement() instanceof Elfe){
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
+				
+			}
+			
 			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
 			client.executeAction();
+			
+
 			
 			res = true;
 		}
@@ -910,7 +923,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);
 			
 		} else if(client.getElement().getPassifs().get(Passif.TeleportationCoolDown)>0){
-			logger.info("Impossible se téléporter");
+			logger.info("Impossible se teleporter");
 		} else {
 			// sinon, on tente de jouer l'interaction
 			new Teleportation(client, getVoisins(refRMI)).seTeleporteA(refCible);
@@ -932,7 +945,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);		
 		} else {
 			if (Calculs.distanceChebyshev(client.getPosition(), potion.getPosition()) <= Constantes.DISTANCE_MIN_INTERACTION){
-				new EmpoisonerPotion(this,client,potion).interagit();
+				new EmpoisonnerPotion(this,client,potion).interagit();
 				client.executeAction();
 				done = true;
 			}else{
@@ -943,7 +956,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 
 	@Override
-	// se déplacer sur un point précis
+	// se deplacer sur un point precis, double si c'est un elfe
 	public boolean deplace(int refRMI, Point objectif) throws RemoteException {
 		boolean res = false;
 		
@@ -954,10 +967,21 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);
 		} else {
 			// sinon, on tente de jouer l'interaction
+			//On se deplace quatre fois si c'est un elfe
+			if(client.getElement() instanceof Elfe){
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
+			}
+			
 			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
 			client.executeAction();
+			
+
 
 			res = true;
+			
 		}
 		
 		return res;

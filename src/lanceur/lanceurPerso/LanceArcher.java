@@ -9,6 +9,7 @@ import client.strategie.StratArcher;
 import lanceur.ErreurLancement;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
+import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -76,7 +77,7 @@ public class LanceArcher {
 			
 			Point position = Calculs.positionAleatoireArene();
 			
-			new StratArcher(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+			new StratArcher(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.ELFE);
 			logger.info("Lanceur", "Creation du personnage reussie");
 			
 		} catch (Exception e) {

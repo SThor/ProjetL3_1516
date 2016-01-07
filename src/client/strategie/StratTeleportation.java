@@ -10,6 +10,7 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Passif;
 import serveur.element.Potion;
+import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -37,9 +38,9 @@ public class StratTeleportation extends StrategiePersonnage {
 	 */
 
 	public StratTeleportation(String ipArene, int port, String ipConsole, String nom, String groupe,
-			HashMap<Caracteristique, Integer> caracts, int nbTours, Point position, LoggerProjet logger) {
+			HashMap<Caracteristique, Integer> caracts, int nbTours, Point position, LoggerProjet logger, Persons type) {
 
-		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, type);
 
 	}
 

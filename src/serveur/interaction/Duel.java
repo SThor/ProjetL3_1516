@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
+import serveur.element.personnage.Orks;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -33,6 +34,9 @@ public class Duel extends Interaction<VuePersonnage> {
 			Personnage pAttaquant = attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
 			int perteVie = forceAttaquant;
+			if(attaquant.getElement() instanceof Orks){
+				perteVie += 20;
+			}
 		
 			Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
 

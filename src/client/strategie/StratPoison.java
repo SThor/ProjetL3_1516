@@ -11,6 +11,7 @@ import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -20,9 +21,9 @@ public class StratPoison extends StrategiePersonnage {
 	
 	public StratPoison(	String ipArene, int port, String ipConsole, String nom,
 			String groupe, HashMap<Caracteristique, Integer> caracts,
-			int nbTours, Point position, LoggerProjet logger) 
+			int nbTours, Point position, LoggerProjet logger, Persons type) 
 	{
-		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, type);
 		potionDejaEmpoisonnee = new ArrayList<Integer>();
 	}
 

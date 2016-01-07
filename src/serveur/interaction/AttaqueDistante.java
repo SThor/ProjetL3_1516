@@ -36,6 +36,7 @@ public class AttaqueDistante extends Interaction<VuePersonnage> {
 			//Verifie que le tire est superieur a la precision demandee
 			//Si oui, la perte de vie est egale a la force divise par 2 (une attaque a distante etant moins puissante qu'une attaque au corps a corps)
 			//Sinon aucun degat n'est subit
+			
 			if (tire <= precision){
 				perteVie = (forceAttaquant / 2) ;
 			} else {

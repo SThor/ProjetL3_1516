@@ -9,6 +9,7 @@ import client.strategie.StratTeleportation;
 import lanceur.ErreurLancement;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
+import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -76,7 +77,7 @@ public class LanceTeleporteur {
 			
 			Point position = Calculs.positionAleatoireArene();
 			
-			new StratTeleportation(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+			new StratTeleportation(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.ORKS);
 			logger.info("Lanceur", "Creation du personnage reussie");
 			
 		} catch (Exception e) {

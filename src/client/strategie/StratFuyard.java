@@ -14,6 +14,7 @@ import serveur.element.Personnage;
 import serveur.element.Potion;
 import serveur.element.personnage.Persons;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /* 
  * Cette classe met en place le comportement de type "Fuyard".
@@ -72,95 +73,83 @@ public class StratFuyard extends StrategiePersonnage {
 			arene.deplace(refRMI, 0); 
 
 		} else {
-			Point[] possibilites = new Point[] { 
-					new Point((int)position.getX() -1 , (int)position.getY() - 1),
-					new Point((int)position.getX() -1 , (int)position.getY()    ),
-					new Point((int)position.getX() -1 , (int)position.getY() + 1),
-					new Point((int)position.getX()    , (int)position.getY() - 1),
-					new Point((int)position.getX()    , (int)position.getY() + 1),
-					new Point((int)position.getX() +1 , (int)position.getY() - 1),
-					new Point((int)position.getX() +1 , (int)position.getY()    ),
-					new Point((int)position.getX() +1 , (int)position.getY() + 1)
-			};
-			boolean presMur = estPresDUnMur(possibilites);
-			HashMap<Integer,Point> personnagesVoisins = getPersonnagesVoisins(voisins);
-			boolean tpDispo = console.getPersonnage().getPassifs().get(Passif.TeleportationCoolDown)==0;
-
-			if(!personnagesVoisins.isEmpty()&& presMur && tpDispo){
-				console.setPhrase("Je me téléporte en urgence.");
-				arene.teleporte(refRMI, 0);
+			//On fait la liste des personnages visibles
+			HashMap<Integer, Point> personnagesVoisins = new HashMap<Integer, Point>();
+			Iterator<Integer> it = voisins.keySet().iterator();
+			while(it.hasNext()){
+				int reference = (int)it.next();
+				Element test = arene.elementFromRef(reference);
+				if( test instanceof Personnage ){
+					personnagesVoisins.put((Integer)reference, voisins.get(reference));
+				}
 			}
-			else if(personnagesVoisins.isEmpty() ){
-				int refcible = Calculs.chercheElementProche(position, voisins);
-				Element elemPlusProche = arene.elementFromRef(refcible);
-				if(elemPlusProche instanceof Potion) {
-					console.setPhrase("Je ramasse une potion");
-					arene.ramassePotion(refRMI,refcible);
+			if(!(personnagesVoisins.isEmpty())){
+				//Si un personnage est en vu on regarde les possibilites de fuite
+				Point[] possibilites = new Point[] { 
+						new Point((int)position.getX() -1 , (int)position.getY() - 1),
+						new Point((int)position.getX() -1 , (int)position.getY()    ),
+						new Point((int)position.getX() -1 , (int)position.getY() + 1),
+						new Point((int)position.getX()    , (int)position.getY() - 1),
+						new Point((int)position.getX()    , (int)position.getY() + 1),
+						new Point((int)position.getX() +1 , (int)position.getY() - 1),
+						new Point((int)position.getX() +1 , (int)position.getY()    ),
+						new Point((int)position.getX() +1 , (int)position.getY() + 1)
+				};
+				boolean presMur = estPresDUnMur(possibilites);
+				boolean tpDispo = console.getPersonnage().getPassifs().get(Passif.TeleportationCoolDown)==0;
+				
+				//Si on est contre un mur et que le CD de la teleportation est disponible, on se teleporte 
+				if(presMur && tpDispo){
+					console.setPhrase("Je me téléporte en urgence.");
+					arene.teleporte(refRMI, 0);
+				}
+				else{
+					//Dans les autres cas, que l'on ne soit pas contre un mur ou que le CD de la teleportation n'est pas disponible
+					//On cherche  la case adjacente qui nous éloigne le plus des ennemis en vue
+					int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
+					for(int i = 0; i < possibilites.length; i++){
+						if(Calculs.estDansArene(possibilites[i])){
+							Iterator<Integer> it1 = personnagesVoisins.keySet().iterator();
+							while(it1.hasNext()){
+								int reference = it1.next();
+								if(arene.elementFromRef(reference) instanceof Personnage){
+									distancesTotales[i] += Calculs.distanceChebyshev(possibilites[i], personnagesVoisins.get((Integer) reference));
+								}
+							}
+						}
+					}
+					int meilleurePossibilite = 0;
+					int meilleureDistance = 0;
+					for(int i = 0; i < possibilites.length; i++){
+						if(meilleureDistance < distancesTotales[i]){
+							meilleureDistance = distancesTotales[i];
+							meilleurePossibilite = i;
+						}
+					}
+					console.setPhrase("Je fuis et j'ai pas de rustine.");
+					arene.deplace(refRMI, possibilites[meilleurePossibilite]);
 				}
 			}
 			else{
-				console.setPhrase("Je fuis !");
-				arene.deplace(refRMI, trouverPointFuite(position, personnagesVoisins, possibilites) );
-			}
-		}
-
-	}
-
-	/**
-	 * @param position position initiale du personnage dans l'arene
-	 * @param voisins element voisins de cet element (elements qu'il voit)
-	 * @param possibilites les differentes possibilites de deplacement
-	 * @return le point qui permet de s'éloigner le plus des différents personnages voisins
-	 * @throws RemoteException
-	 */
-	private Point trouverPointFuite(Point position, HashMap<Integer, Point> personnagesVoisins, Point[] possibilites ) throws RemoteException 
-	{
-		IArene arene = console.getArene();
-
-
-		int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
-		for(int i = 0; i < possibilites.length; i++){
-			if(Calculs.estDansArene(possibilites[i])){
-				Iterator<Integer> it = personnagesVoisins.keySet().iterator();
-				while(it.hasNext()){
-					int reference = (int)it.next();
-					if(arene.elementFromRef(reference) instanceof Personnage){
-						distancesTotales[i] += Calculs.distanceChebyshev(possibilites[i], personnagesVoisins.get((Integer) reference));
-					}
+				//Si pas de personnages visibles on cherche la potion la plus proche
+				int refCible = Calculs.chercheElementProche(position, voisins);
+				if(Calculs.distanceChebyshev(position, arene.getPosition(refCible) )<= Constantes.DISTANCE_MIN_INTERACTION ){
+					//si possible on la boit
+					console.setPhrase("Je bois " + arene.elementFromRef(refCible).getNom()+" !");
+					arene.ramassePotion(refRMI, refCible);
+				}
+				else{
+					//sinon on s'avance vers elle	
+					console.setPhrase("Je veux boire " + arene.elementFromRef(refCible).getNom()+" !");
+					arene.deplace(refRMI, refCible );
 				}
 			}
-		}
-		int meilleurePossibilite = 0;
-		int meilleureDistance = 0;
-		for(int i = 0; i < possibilites.length; i++){
-			if(meilleureDistance < distancesTotales[i]){
-				meilleureDistance = distancesTotales[i];
-				meilleurePossibilite = i;
-			}
+
 		}
 
-		return possibilites[meilleurePossibilite];
 	}
 
-
-	/**
-	 * @param voisins element voisins de cet element (elements qu'il voit)
-	 * @return une Hashmap qui contient uniquement les personnages
-	 * @throws RemoteException
-	 */
-	private HashMap<Integer, Point> getPersonnagesVoisins(HashMap<Integer,Point>  voisins) throws RemoteException{
-		HashMap<Integer, Point> personnages = voisins;
-		IArene arene = console.getArene();
-		Iterator<Integer> it = personnages.keySet().iterator();
-		while(it.hasNext()){
-			int reference = (int)it.next();
-			if(!(arene.elementFromRef(reference) instanceof Personnage)){
-				personnages.remove(reference);
-			}
-		}
-		return personnages;	
-	}
-
+	
 	/**
 	 * @param possibilites les differentes possibilites de deplacement
 	 * @return si le personnage a une limite de l'arene dans une de ses possibilite de deplacement

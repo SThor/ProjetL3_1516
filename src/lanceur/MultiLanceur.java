@@ -1,9 +1,7 @@
 package lanceur;
 
 import lanceur.lanceurPerso.LanceArcher;
-import lanceur.lanceurPerso.LanceBourrin;
 import lanceur.lanceurPerso.LanceFuyard;
-import lanceur.lanceurPerso.LancePersonnage;
 import lanceur.lanceurPerso.LancePoison;
 import lanceur.lanceurPerso.LanceTeleporteur;
 
@@ -15,12 +13,10 @@ public class MultiLanceur {
 			LancePotion.main(args);
 		}
 		for(int i = 0; i < 2 ; i++){
-			//LancePoison.main(args);
-			//LanceArcher.main(args);
+			LancePoison.main(args);
+			LanceArcher.main(args);
 			//LanceFuyard.main(args);
 			LanceTeleporteur.main(args);
-			LancePersonnage.main(args);
-			LanceBourrin.main(args);
 		}
 	}
 }

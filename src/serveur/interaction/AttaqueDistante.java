@@ -47,8 +47,8 @@ public class AttaqueDistante extends Interaction<VuePersonnage> {
 			if (perteVie > 0) {
 				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
-				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
-						+ perteVie + " points de degats) a " + Constantes.nomRaccourciClient(defenseur));
+				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " tire une fleche ("
+						+ perteVie + " points de degats) sur " + Constantes.nomRaccourciClient(defenseur));
 			}
 			
 			// initiative

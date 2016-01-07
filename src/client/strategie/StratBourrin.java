@@ -51,58 +51,45 @@ public class StratBourrin extends StrategiePersonnage {
 			arene.deplace(refRMI, 0); 
 
 		} else {
-			int refIlemPlusProche = Calculs.chercheElementProche(position, voisins);
-			Element elemPlusProche = arene.elementFromRef(refIlemPlusProche);
-			if(elemPlusProche instanceof Personnage){
-				if(Calculs.distanceChebyshev(position, arene.getPosition(refIlemPlusProche))< Constantes.DISTANCE_MIN_INTERACTION)
-				{
-					console.setPhrase("Je me bastonne avec " + elemPlusProche.getNom());
-					arene.lanceAttaque(refRMI, refIlemPlusProche);
+			int refCible = 0;
+			//On fait la liste des personnages visibles
+			HashMap<Integer, Point> personnages = new HashMap<Integer, Point>();
+			Iterator<Integer> it = voisins.keySet().iterator();
+			while(it.hasNext()){
+				int reference = (int)it.next();
+				Element test = arene.elementFromRef(reference);
+				if( test instanceof Personnage ){
+					personnages.put((Integer)reference, voisins.get(reference));
+				}
+			}
+			if(!(personnages.isEmpty())){
+				//On cherche le personnage le plus proche
+				refCible =Calculs.chercheElementProche(position,personnages);
+				//Si possible on le frappe
+				if(Calculs.distanceChebyshev(position, arene.getPosition(refCible) )<= Constantes.DISTANCE_MIN_INTERACTION ){
+					console.setPhrase("Je tabasse " + arene.elementFromRef(refCible).getNom()+" !");
+					arene.lanceAttaque(refRMI, refCible);
+				}
+				//Sinon on le charge
+				else{
+					console.setPhrase("Je charge " + arene.elementFromRef(refCible).getNom()+" !");
+					arene.deplace(refRMI, refCible );
 				}
 			}
 			else{
-				console.setPhrase("Je charge !");
-				arene.deplace(refRMI, trouverCible(position, voisins) );
-			}
-		}
-
-	}
-
-	private Point trouverCible(Point position, HashMap<Integer, Point> voisins) throws RemoteException 
-	{
-		IArene arene = console.getArene();
-		Point[] possibilites = new Point[] { 
-				new Point((int)position.getX() -1 , (int)position.getY() - 1),
-				new Point((int)position.getX() -1 , (int)position.getY()    ),
-				new Point((int)position.getX() -1 , (int)position.getY() + 1),
-				new Point((int)position.getX()    , (int)position.getY() - 1),
-				new Point((int)position.getX()    , (int)position.getY() + 1),
-				new Point((int)position.getX() +1 , (int)position.getY() - 1),
-				new Point((int)position.getX() +1 , (int)position.getY()    ),
-				new Point((int)position.getX() +1 , (int)position.getY() + 1)
-		};
-
-		int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
-		for(int i = 0; i < 8; i++){
-			if(Calculs.estDansArene(possibilites[i])){
-				Iterator<Integer> it = voisins.keySet().iterator();
-				while(it.hasNext()){
-					int reference = (int)it.next();
-					if(arene.elementFromRef(reference) instanceof Personnage){
-						distancesTotales[i] += Calculs.distanceChebyshev(possibilites[i], voisins.get((Integer) reference));
-					}
+				//Si pas de personnages visibles on cherche la potion la plus proche
+				refCible = Calculs.chercheElementProche(position, voisins);
+				if(Calculs.distanceChebyshev(position, arene.getPosition(refCible) )<= Constantes.DISTANCE_MIN_INTERACTION ){
+					//si possible on la boit
+					console.setPhrase("Je bois " + arene.elementFromRef(refCible).getNom()+" !");
+					arene.ramassePotion(refRMI, refCible);
+				}
+				else{
+					//sinon on s'avance vers elle	
+					console.setPhrase("Je veux boire " + arene.elementFromRef(refCible).getNom()+" !");
+					arene.deplace(refRMI, refCible );
 				}
 			}
 		}
-		int meilleurePossibilite = 0;
-		int meilleureDistance = 0;
-		for(int i = 0; i < 8; i++){
-			if(meilleureDistance < distancesTotales[i]){
-				meilleureDistance = distancesTotales[i];
-				meilleurePossibilite = i;
-			}
-		}
-
-		return possibilites[meilleurePossibilite];
 	}
 }

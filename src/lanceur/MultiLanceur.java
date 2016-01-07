@@ -15,9 +15,9 @@ public class MultiLanceur {
 			LancePotion.main(args);
 		}
 		for(int i = 0; i < 2 ; i++){
-			LancePoison.main(args);
-			LanceArcher.main(args);
-			LanceFuyard.main(args);
+			//LancePoison.main(args);
+			//LanceArcher.main(args);
+			//LanceFuyard.main(args);
 			LanceTeleporteur.main(args);
 			LancePersonnage.main(args);
 			LanceBourrin.main(args);

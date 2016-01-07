@@ -31,6 +31,7 @@ public class StratFuyard extends StrategiePersonnage {
 	 * @param nbTours nombre de tours pour ce personnage (si negatif, illimite)
 	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
+	 * @param type 
 	 **/
 	public StratFuyard(	String ipArene, int port, String ipConsole, String nom,
 			String groupe, HashMap<Caracteristique, Integer> caracts,
@@ -99,7 +100,7 @@ public class StratFuyard extends StrategiePersonnage {
 			}
 			else{
 				console.setPhrase("Je fuis !");
-				arene.deplace(refRMI, trouverPointFuite(position, voisins, possibilites) );
+				arene.deplace(refRMI, trouverPointFuite(position, personnagesVoisins, possibilites) );
 			}
 		}
 
@@ -112,7 +113,7 @@ public class StratFuyard extends StrategiePersonnage {
 	 * @return le point qui permet de s'éloigner le plus des différents personnages voisins
 	 * @throws RemoteException
 	 */
-	private Point trouverPointFuite(Point position, HashMap<Integer, Point> voisins, Point[] possibilites ) throws RemoteException 
+	private Point trouverPointFuite(Point position, HashMap<Integer, Point> personnagesVoisins, Point[] possibilites ) throws RemoteException 
 	{
 		IArene arene = console.getArene();
 
@@ -120,18 +121,18 @@ public class StratFuyard extends StrategiePersonnage {
 		int[] distancesTotales = new int[8]; // La distance additionnée entre les ennemis et le personnage en choisissant la case i
 		for(int i = 0; i < possibilites.length; i++){
 			if(Calculs.estDansArene(possibilites[i])){
-				Iterator<Integer> it = voisins.keySet().iterator();
+				Iterator<Integer> it = personnagesVoisins.keySet().iterator();
 				while(it.hasNext()){
 					int reference = (int)it.next();
 					if(arene.elementFromRef(reference) instanceof Personnage){
-						distancesTotales[i] += Calculs.distanceChebyshev(possibilites[i], voisins.get((Integer) reference));
+						distancesTotales[i] += Calculs.distanceChebyshev(possibilites[i], personnagesVoisins.get((Integer) reference));
 					}
 				}
 			}
 		}
 		int meilleurePossibilite = 0;
 		int meilleureDistance = 0;
-		for(int i = 0; i < 8; i++){
+		for(int i = 0; i < possibilites.length; i++){
 			if(meilleureDistance < distancesTotales[i]){
 				meilleureDistance = distancesTotales[i];
 				meilleurePossibilite = i;
@@ -165,7 +166,7 @@ public class StratFuyard extends StrategiePersonnage {
 	 * @return si le personnage a une limite de l'arene dans une de ses possibilite de deplacement
 	 */
 	private boolean estPresDUnMur(Point[] possibilites){
-		for(int i=0; i<8; i++){
+		for(int i=0; i<possibilites.length; i++){
 			if(!Calculs.estDansArene(possibilites[i])) return true;
 		}
 		return false;

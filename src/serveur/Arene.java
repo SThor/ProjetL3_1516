@@ -896,8 +896,6 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			if(client.getElement() instanceof Elfe){
 				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
 				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
-				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
-				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
 				
 			}
 			
@@ -969,8 +967,6 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			// sinon, on tente de jouer l'interaction
 			//On se deplace quatre fois si c'est un elfe
 			if(client.getElement() instanceof Elfe){
-				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
-				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
 				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
 				new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
 			}

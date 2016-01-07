@@ -22,17 +22,12 @@ public enum Caracteristique {
 	/**
 	 * Initiative : definit l'ordre d'action des personnages lors d'un tour de jeu. 
 	 */
-	INITIATIVE("Initiative", "INIT", 0, 200, 50);
+	INITIATIVE("Initiative", "INIT", 0, 200, 50),
 	
 	/**
 	 * Esquive : definit la probabilite d'eviter un coup
 	 */
-	//ESQUIVE("Esquive","ESQ",0,100,50),
-	
-	/**
-	 * Vitesse :  definit la vitesse de deplacement par tour
-	 */
-	//VITESSE("Vitesse","VIT",1,5,1)
+	ESQUIVE("Esquive","ESQ",0,100,50);
 	
 	/**
 	 * Nom complet.

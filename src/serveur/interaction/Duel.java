@@ -2,6 +2,7 @@ package serveur.interaction;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
+import java.util.Random;
 import java.util.logging.Level;
 
 import serveur.Arene;
@@ -34,8 +35,16 @@ public class Duel extends Interaction<VuePersonnage> {
 			Personnage pAttaquant = attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
 			int perteVie = forceAttaquant;
+			boolean attaqueEsquivee = false;
 			if(attaquant.getElement() instanceof Orks){
 				perteVie += 20;
+			}
+			
+			Random rand = new Random();
+			//gaussienne centree a la valeur de l'esquive du defenseur, avec une deviation standard de 50
+			int esquiveEffective = (int) ((rand.nextGaussian()*50)+defenseur.getElement().getCaract(Caracteristique.ESQUIVE));
+			if(esquiveEffective>50){
+				attaqueEsquivee = true;
 			}
 		
 			Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
@@ -44,11 +53,15 @@ public class Duel extends Interaction<VuePersonnage> {
 			defenseur.setPosition(positionEjection);
 
 			// degats
-			if (perteVie > 0) {
+			if (perteVie > 0 && !attaqueEsquivee) {
 				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
 						+ perteVie + " points de degats) a " + Constantes.nomRaccourciClient(defenseur));
+			}
+			
+			if (attaqueEsquivee){
+				logs(Level.INFO, Constantes.nomRaccourciClient(defenseur)+" evite l'attaque de "+Constantes.nomRaccourciClient(defenseur));
 			}
 			
 			// initiative

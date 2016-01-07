@@ -18,6 +18,7 @@ public class Orks extends Personnage{
 	public Orks(String nom, String groupe,
 			HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);
+		super.setNom("Ork "+nom);
 	}
 
 }

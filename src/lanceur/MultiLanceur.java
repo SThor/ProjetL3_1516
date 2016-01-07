@@ -1,6 +1,7 @@
 package lanceur;
 
 import lanceur.lanceurPerso.LanceArcher;
+import lanceur.lanceurPerso.LanceBourrin;
 import lanceur.lanceurPerso.LanceFuyard;
 import lanceur.lanceurPerso.LancePersonnage;
 import lanceur.lanceurPerso.LancePoison;
@@ -19,6 +20,7 @@ public class MultiLanceur {
 			LanceFuyard.main(args);
 			LanceTeleporteur.main(args);
 			LancePersonnage.main(args);
+			LanceBourrin.main(args);
 		}
 	}
 }

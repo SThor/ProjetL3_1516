@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.Random;
 
 import client.strategie.StratArcher;
 import lanceur.ErreurLancement;
@@ -71,13 +72,20 @@ public class LanceArcher {
 			
 			// caracteristiques du personnage
 			HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique, Integer>();
-			// seule la force n'a pas sa valeur par defaut (exemple)
+			// la force n'a pas sa valeur par defaut
 			caracts.put(Caracteristique.FORCE, 
 					Calculs.valeurCaracAleatoire(Caracteristique.FORCE)); 
 			
 			Point position = Calculs.positionAleatoireArene();
 			
-			new StratArcher(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.ELFE);
+			Persons type;
+			switch (new Random().nextInt(2)){
+				case 1: type = Persons.ELFE; break;
+				case 2: type = Persons.ORKS; break;
+				default: type = Persons.HUMAIN; break;
+			}
+			
+			new StratArcher(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, type);
 			logger.info("Lanceur", "Creation du personnage reussie");
 			
 		} catch (Exception e) {

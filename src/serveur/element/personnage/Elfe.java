@@ -17,6 +17,7 @@ public class Elfe extends Personnage{
 	public Elfe(String nom, String groupe,
 			HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);
+		super.setNom("Elfe "+nom);
 	}
 
 }

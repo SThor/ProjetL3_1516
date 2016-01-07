@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.Random;
 
 import client.strategie.StratTeleportation;
 import lanceur.ErreurLancement;
@@ -77,7 +78,14 @@ public class LanceTeleporteur {
 			
 			Point position = Calculs.positionAleatoireArene();
 			
-			new StratTeleportation(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.ORKS);
+			Persons type;
+			switch (new Random().nextInt(3)){
+				case 1: type = Persons.ELFE; break;
+				case 2: type = Persons.ORKS; break;
+				default: type = Persons.HUMAIN; break;
+			}
+			
+			new StratTeleportation(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, type);
 			logger.info("Lanceur", "Creation du personnage reussie");
 			
 		} catch (Exception e) {

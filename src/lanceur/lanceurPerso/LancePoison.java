@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.Random;
 
 import client.strategie.StratPoison;
 import lanceur.ErreurLancement;
@@ -77,7 +78,14 @@ public class LancePoison {
 			
 			Point position = Calculs.positionAleatoireArene();
 			
-			new StratPoison(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.ELFE);
+			Persons type;
+			switch (new Random().nextInt(3)){
+				case 1: type = Persons.ELFE; break;
+				case 2: type = Persons.ORKS; break;
+				default: type = Persons.HUMAIN; break;
+			}
+			
+			new StratPoison(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, type);
 			logger.info("Lanceur", "Creation du personnage reussie");
 			
 		} catch (Exception e) {

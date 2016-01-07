@@ -20,7 +20,7 @@ public class Personnage extends Element {
 	private HashMap<Passif, Integer> passifs;
 
 	/**
-	 * Cree un personnage avec un nom et un groupe.
+	 * Cree un personnage avec un nom et un groupe, les passifs sont initialises a 0.
 	 * @param nom du personnage
 	 * @param groupe d'etudiants du personnage
 	 * @param caracts caracteristiques du personnage

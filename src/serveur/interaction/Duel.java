@@ -41,10 +41,12 @@ public class Duel extends Interaction<VuePersonnage> {
 			}
 			
 			Random rand = new Random();
+			int esquiveBase = defenseur.getElement().getCaract(Caracteristique.ESQUIVE);
 			//gaussienne centree a la valeur de l'esquive du defenseur, avec une deviation standard de 50
-			int esquiveEffective = (int) ((rand.nextGaussian()*50)+defenseur.getElement().getCaract(Caracteristique.ESQUIVE));
+			int esquiveEffective = (int) ((rand.nextGaussian()*50)+esquiveBase);
 			if(esquiveEffective>50){
 				attaqueEsquivee = true;
+				logs(Level.INFO, Constantes.nomRaccourciClient(defenseur)+" evite l'attaque de "+Constantes.nomRaccourciClient(defenseur));
 			}
 		
 			Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
@@ -58,10 +60,6 @@ public class Duel extends Interaction<VuePersonnage> {
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
 						+ perteVie + " points de degats) a " + Constantes.nomRaccourciClient(defenseur));
-			}
-			
-			if (attaqueEsquivee){
-				logs(Level.INFO, Constantes.nomRaccourciClient(defenseur)+" evite l'attaque de "+Constantes.nomRaccourciClient(defenseur));
 			}
 			
 			// initiative

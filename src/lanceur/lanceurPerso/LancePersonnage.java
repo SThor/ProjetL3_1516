@@ -75,7 +75,8 @@ public class LancePersonnage {
 			caracts.put(Caracteristique.FORCE, 
 					Calculs.valeurCaracAleatoire(Caracteristique.FORCE)); 
 			
-			Point position = Calculs.positionAleatoireArene();
+			//Point position = Calculs.positionAleatoireArene();
+			Point position = new Point(0,0);
 			
 			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger, Persons.HUMAIN);
 			logger.info("Lanceur", "Creation du personnage reussie");

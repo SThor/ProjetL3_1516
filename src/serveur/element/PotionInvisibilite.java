@@ -4,7 +4,7 @@ package serveur.element;
 import utilitaires.Calculs;
 
 /**
- * Une potion: un element donnant un effet d'invisibilite à celui qui
+ * Une potion: un element donnant un effet d'invisibilite a celui qui
  * le ramasse.(il n'apparait pas dans la vision des autre joueurs)
  */
 public class PotionInvisibilite extends Potion {

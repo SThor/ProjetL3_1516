@@ -809,7 +809,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		return res;
 	}
 	
-	//Copier/coller de lanceAttaque mais fait une attaque distante non un duel
+	//lanceAttaque mais fait une AttaqueDistante non un Duel, avec DISTANCE_MIN_ATT_DISTANTE
 	@Override
 	public boolean lanceAttaqueDistante(int refRMI, int refRMIAdv) throws RemoteException {
 		boolean res = false;
